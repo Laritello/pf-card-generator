@@ -19,7 +19,7 @@ h4,
 h5,
 h6 {
     margin: 0;
-    font-family: 'ff-good-web-pro-condensed';
+    font-family: 'ff-good-web-pro-condensed', sans-serif;
     padding: 0;
     line-height: 1;
     text-transform: uppercase;

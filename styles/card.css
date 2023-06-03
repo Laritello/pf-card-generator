@@ -91,7 +91,7 @@
     align-self: flex-start;
 
     font-size: 0.8rem;
-    font-family: 'ff-good-web-pro';
+    font-family: 'ff-good-web-pro', sans-serif;
     font-weight: 700;
     color: white;
 
@@ -108,7 +108,7 @@
     align-self: flex-start;
     
     font-size: 0.8rem;
-    font-family: 'ff-good-web-pro';
+    font-family: 'ff-good-web-pro', sans-serif;
     font-weight: 400;
     color: white;
 }
@@ -192,7 +192,7 @@
     line-height: 110%;
     text-align: justify;
     font-size: 1.1rem;
-    font-family: 'ff-good-web-pro';
+    font-family: 'ff-good-web-pro', sans-serif;
 }
 
 .text-pf ul {

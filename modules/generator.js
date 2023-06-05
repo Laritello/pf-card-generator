@@ -1,4 +1,4 @@
-import { one_action_image, two_action_image, three_action_image, reaction_image, free_image} from "../modules/provider.js";
+import { one_action_link, two_action_link, three_action_link, reaction_link, free_link} from "../modules/provider.js";
 import { isOverflown } from "../modules/utility.js";
 
 function createCard(cardType, information, collection) {
@@ -168,7 +168,7 @@ function appendCast(body, cast) {
     if (cast == null)
         return;
 
-    let content = cast.replace('(a)', one_action_image).replace('(aa)', two_action_image).replace('(aaa)', three_action_image).replace('(r)', reaction_image).replace('(f)', free_image);
+    let content = cast.replace('(a)', one_action_link).replace('(aa)', two_action_link).replace('(aaa)', three_action_link).replace('(r)', reaction_link).replace('(f)', free_link);
 
     let paragraph = document.createElement("p");
     paragraph.classList.add('hang');
@@ -243,7 +243,7 @@ function appendDescription(body, information) {
 
     for (let i = 0; i < information.description.length; i++) {
         // Заменяем в строке указатели на картинки действий самими картинками
-        let content = information.description[i].replace('(a)', one_action_image).replace('(aa)', two_action_image).replace('(aaa)', three_action_image).replace('(r)', reaction_image).replace('(f)', free_image);
+        let content = information.description[i].replace('(a)', one_action_link).replace('(aa)', two_action_link).replace('(aaa)', three_action_link).replace('(r)', reaction_link).replace('(f)', free_link);
         
         let temp = body.innerHTML; // Сохраняем оригинальное состояние контента до добавления нового параграфа
         body.innerHTML += content; // Добавляем новый параграф
@@ -265,7 +265,7 @@ function appendHeightened(body, information) {
 
     for (let i = 0; i < information.heightened.length; i++) {
         // Заменяем в строке указатели на картинки действий самими картинками
-        let content = information.heightened[i].replace('(a)', one_action_image).replace('(aa)', two_action_image).replace('(aaa)', three_action_image).replace('(r)', reaction_image).replace('(f)', free_image);
+        let content = information.heightened[i].replace('(a)', one_action_link).replace('(aa)', two_action_link).replace('(aaa)', three_action_link).replace('(r)', reaction_link).replace('(f)', free_link);
         
         let temp = body.innerHTML; // Сохраняем оригинальное состояние контента до добавления нового параграфа
         body.innerHTML += content; // Добавляем новый параграф
@@ -286,7 +286,8 @@ function appendDescriptionByIndex(body, information, index) {
             return;
         }
 
-        let content = information.description[i].replace('(a)', one_action_image).replace('(aa)', two_action_image).replace('(aaa)', three_action_image).replace('(r)', reaction_image).replace('(f)', free_image);
+        let content = information.description[i].replace('(a)', one_action_link).replace('(aa)', two_action_link).replace('(aaa)', three_action_link).replace('(r)', reaction_link).replace('(f)', free_link);
+        
         body.innerHTML += content;
     }
 }
@@ -298,7 +299,8 @@ function appendHeightenedByIndex(body, information, index) {
     appendSeparator(body);
 
     for (let i = index; i < information.heightened.length; i++) {
-        let content = information.heightened[i].replace('(a)', one_action_image).replace('(aa)', two_action_image).replace('(aaa)', three_action_image).replace('(r)', reaction_image).replace('(f)', free_image);
+        let content = information.heightened[i].replace('(a)', one_action_link).replace('(aa)', two_action_link).replace('(aaa)', three_action_link).replace('(r)', reaction_link).replace('(f)', free_link);
+        
         body.innerHTML += content;
 
         if (isOverflown(body)) {

@@ -1,5 +1,5 @@
 import { one_action_image, two_action_image, three_action_image, reaction_image, free_image} from "../modules/provider.js";
-import { isOverflown } from "../modules/utility.js";
+import { getOverflownElements } from "../modules/utility.js";
 
 function createCard(cardType, information, collection) {
     // Получить пустой шаблон
@@ -45,26 +45,24 @@ function createCard(cardType, information, collection) {
     appendSeparator(body);
 
     // Добавить основной текст
-    let descirptionBreak = appendDescription(body, information);
+    appendDescription(body, information);
+    appendHeightened(body, information);
+
 
     // Если в ходе заполнение карточки произошло переполнение контента
     // создаем заднюю сторону карточки
-    if (descirptionBreak != null) {
-        let secondaryCard = createSecondaryCard(cardType, information, collection, descirptionBreak[0], descirptionBreak[1]);
-        return [mainCard, secondaryCard];
-    }
-    
-    let heightenedBreak = appendHeightened(body, information);
-
-    if (heightenedBreak != null) {
-        let secondaryCard = createSecondaryCard(cardType, information, collection, heightenedBreak[0], heightenedBreak[1]);
+    let overflown = getOverflownElements(body);
+    if (overflown.length > 0) {
+        let secondaryCard = createSecondaryCard(cardType, information, collection, overflown);
         return [mainCard, secondaryCard];
     }
 
     return [mainCard];
+
+    
 }
 
-function createSecondaryCard(cardType, information, collection, breakContent, breakIndex) {
+function createSecondaryCard(cardType, information, collection, overflown) {
     // Получить пустой шаблон
     let temp = document.getElementsByTagName("template")[1];
     let card = temp.content.cloneNode(true); // Возвращает DocumentFragment
@@ -82,20 +80,11 @@ function createSecondaryCard(cardType, information, collection, breakContent, br
     let body = card.querySelector('.text-pf');
     collection.append(card);
     let nodes = collection.querySelectorAll('.card');
-    let result = nodes[nodes.length -1];
+
+    $(body).append(overflown);
 
     // TODO: Добавить оповещение о том, что это продолжение карты
-
-    if (breakContent == 'description') {
-        appendDescriptionByIndex(body, information, breakIndex);
-        appendHeightenedByIndex(body, information, 0, true);
-    }
-
-    if (breakContent == 'heightened') {
-        appendHeightenedByIndex(body, information, breakIndex, false);
-    }
-
-    return result;
+    return card;
 }
 
 function getCardHeader(cardType) {
@@ -245,15 +234,21 @@ function appendDescription(body, information) {
         // Заменяем в строке указатели на картинки действий самими картинками
         let content = information.description[i].replace('(a)', one_action_image).replace('(aa)', two_action_image).replace('(aaa)', three_action_image).replace('(r)', reaction_image).replace('(f)', free_image);
         
-        let temp = body.innerHTML; // Сохраняем оригинальное состояние контента до добавления нового параграфа
-        body.innerHTML += content; // Добавляем новый параграф
+        // let temp = body.innerHTML; // Сохраняем оригинальное состояние контента до добавления нового параграфа
+        // body.innerHTML += content; // Добавляем новый параграф
+
+        $(body).append(content);
 
         // Проверяем вмещается ли он
-        if (isOverflown(body)) {
-            body.innerHTML = temp;      // Если не вмещается - убираем текущий параграф из контента
-            return [ 'description', i]; // И возвращаем указатель на место переполнения
-        }
+        // if (isOverflown(body)) {
+        //     // $(body).find('p:last').remove();
+        //     body.innerHTML = temp;      // Если не вмещается - убираем текущий параграф из контента
+        //     return [ 'description', i]; // И возвращаем указатель на место переполнения
+        // }
     }
+
+    
+
 }
 
 function appendHeightened(body, information) {
@@ -265,15 +260,21 @@ function appendHeightened(body, information) {
 
     for (let i = 0; i < information.heightened.length; i++) {
         // Заменяем в строке указатели на картинки действий самими картинками
-        let content = information.heightened[i].replace('(a)', one_action_image).replace('(aa)', two_action_image).replace('(aaa)', three_action_image).replace('(r)', reaction_image).replace('(f)', free_image);
-        
-        let temp = body.innerHTML; // Сохраняем оригинальное состояние контента до добавления нового параграфа
-        body.innerHTML += content; // Добавляем новый параграф
+        let content = information.heightened[i]
+            .replace('(a)', one_action_image)
+            .replace('(aa)', two_action_image)
+            .replace('(aaa)', three_action_image)
+            .replace('(r)', reaction_image)
+            .replace('(f)', free_image)
+            .replace('<p>', '<p class="heighten">');
+        $(body).append(content);
+        // let temp = body.innerHTML; // Сохраняем оригинальное состояние контента до добавления нового параграфа
+        // body.innerHTML += content; // Добавляем новый параграф
 
-        if (isOverflown(body)) {
-            body.innerHTML = temp;      // Если не вмещается - убираем текущий параграф из контента
-            return [ 'heightened', i];  // И возвращаем указатель на место переполнения
-        }
+        // if (isOverflown(body)) {
+        //     body.innerHTML = temp;      // Если не вмещается - убираем текущий параграф из контента
+        //     return [ 'heightened', i];  // И возвращаем указатель на место переполнения
+        // }
     }
 }
 

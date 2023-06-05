@@ -25,10 +25,11 @@ function render() {
     let page = initializePage(printable);
     let spells = getFilteredSpells();
 
-    spells.forEach(element => {
+    for(let element of spells)
+    {
         let cards = createCard(cardType, element, collection);
 
-        cards.forEach(card => {
+        for(let card of cards) {
             let copy = card.cloneNode(true);
             page.append(copy);
             count = count + 1;
@@ -36,8 +37,8 @@ function render() {
             // Каждые 9 карт создаем новую страницу
             if (count > 0 && count % 9 == 0)
                 page = initializePage(printable);
-        })
-    });
+        }
+    }
 }
 
 function initializePage(parent) {

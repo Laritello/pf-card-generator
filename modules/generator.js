@@ -237,20 +237,9 @@ function appendDescription(body, information) {
             .replace('(aa)', two_action_link)
             .replace('(aaa)', three_action_link)
             .replace('(r)', reaction_link)
-            .replace('(f)', free_link)
-            .replace('<p>', '<p class="heighten">');
-        
-        // let temp = body.innerHTML; // Сохраняем оригинальное состояние контента до добавления нового параграфа
-        // body.innerHTML += content; // Добавляем новый параграф
+            .replace('(f)', free_link);
 
         $(body).append(content);
-
-        // Проверяем вмещается ли он
-        // if (isOverflown(body)) {
-        //     // $(body).find('p:last').remove();
-        //     body.innerHTML = temp;      // Если не вмещается - убираем текущий параграф из контента
-        //     return [ 'description', i]; // И возвращаем указатель на место переполнения
-        // }
     }
 
     

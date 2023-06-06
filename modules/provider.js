@@ -1,4 +1,4 @@
-import spells from '../data/spells.json' assert {type: 'json'};
+import spells from '../data/spells_manual.json' assert {type: 'json'};
 
 const one_action_link = '<img src="static/1.png" class="text-img">';
 const two_action_link = '<img src="static/2.png" class="text-img">';
@@ -80,6 +80,7 @@ function componentsCheck(spell, components) {
             return true;
         }
     }
+
     return false;
 }
 
@@ -99,6 +100,7 @@ function levelsCheck(spell, levels) {
             return true;
         }
     }
+    
     return false;
 }
 

@@ -1,5 +1,5 @@
 import spells from '../data/spells.json' assert {type: 'json'};
-import manualSpells from '../data/spells_manual.json' assert {type: 'json'};
+import manualSpellsPatch from '../data/spells_patch.json' assert {type: 'json'};
 
 const one_action_link = '<img src="static/1.png" class="text-img">';
 const two_action_link = '<img src="static/2.png" class="text-img">';
@@ -28,8 +28,9 @@ function getManualSpells(name, cardType, components, levels) {
 }
 
 function getSpells(name, cardType, components, levels) {
-    return spells
-    .filter(s => {
+    return Object.keys(spells)
+    .filter(key => {
+        let s = spells[key];
         let nameChecked = nameCheck(s, name); 
         let typeChecked = typeCheck(s, cardType);
         let componentsChecked = componentsCheck(s, components);
@@ -37,13 +38,20 @@ function getSpells(name, cardType, components, levels) {
 
         return nameChecked && typeChecked && componentsChecked && levelChecked;
     })
-    .sort((a,b) => {
+    .sort((keyA,keyB) => {
+        let [a, b] = [spells[keyA], spells[keyB]]
         let levelSortResult = levelSort(a,b);
 
         if (levelSortResult == 0)
             return nameSort(a,b);
         
         return levelSortResult;
+    }).map(key => {
+        if(key in manualSpellsPatch) {
+            spells[key].description = manualSpellsPatch[key].description;
+            console.debug('Spell named "%s" is patched', key);
+        }
+        return spells[key];
     });
 }
 

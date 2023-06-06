@@ -195,6 +195,10 @@
     font-family: 'ff-good-web-pro', sans-serif;
 }
 
+.text-pf p {
+    margin: 0;
+}
+
 .text-pf ul {
     list-style-type: disc;
     padding-left: 5mm;
@@ -208,7 +212,8 @@
 
 .text-pf ol {
     list-style-type: none;
-    padding-left: 0rem;
+    padding-left: 5mm;
+    margin: 0; /* Убирает нижний отступ */ 
 }
 
 .text-pf table th{

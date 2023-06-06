@@ -1,10 +1,31 @@
-import spells from '../data/spells_manual.json' assert {type: 'json'};
+import spells from '../data/spells.json' assert {type: 'json'};
+import manualSpells from '../data/spells_manual.json' assert {type: 'json'};
 
 const one_action_link = '<img src="static/1.png" class="text-img">';
 const two_action_link = '<img src="static/2.png" class="text-img">';
 const three_action_link = '<img src="static/3.png" class="text-img">';
 const reaction_link = '<img src="static/R.png" class="text-img">';
 const free_link = '<img src="static/F.png" class="text-img">';
+
+function getManualSpells(name, cardType, components, levels) {
+    return manualSpells
+    .filter(s => {
+        let nameChecked = nameCheck(s, name); 
+        let typeChecked = typeCheck(s, cardType);
+        let componentsChecked = componentsCheck(s, components);
+        let levelChecked = levelsCheck(s, levels);
+
+        return nameChecked && typeChecked && componentsChecked && levelChecked;
+    })
+    .sort((a,b) => {
+        let levelSortResult = levelSort(a,b);
+
+        if (levelSortResult == 0)
+            return nameSort(a,b);
+        
+        return levelSortResult;
+    });
+}
 
 function getSpells(name, cardType, components, levels) {
     return spells
@@ -104,4 +125,4 @@ function levelsCheck(spell, levels) {
     return false;
 }
 
-export { one_action_link, two_action_link, three_action_link, reaction_link, free_link, getSpells, spells };
+export { one_action_link, two_action_link, three_action_link, reaction_link, free_link, getSpells, getManualSpells };

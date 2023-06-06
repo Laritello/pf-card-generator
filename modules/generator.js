@@ -53,13 +53,12 @@ function createCard(cardType, information, collection) {
     // создаем заднюю сторону карточки
     let overflown = getOverflownElements(body);
     if (overflown.length > 0) {
+        appendNextPageIcon(mainCard);
         let secondaryCard = createSecondaryCard(cardType, information, collection, overflown);
         return [mainCard, secondaryCard];
     }
 
     return [mainCard];
-
-    
 }
 
 function createSecondaryCard(cardType, information, collection, overflown) {
@@ -241,9 +240,6 @@ function appendDescription(body, information) {
 
         $(body).append(content);
     }
-
-    
-
 }
 
 function appendHeightened(body, information) {
@@ -265,6 +261,14 @@ function appendHeightened(body, information) {
             .replace('<p>', '<p class="heighten">');
         $(body).append(content);
     }
+}
+
+function appendNextPageIcon(card) {
+    let temp = document.getElementsByTagName("template")[3];
+    let icon = temp.content.cloneNode(true); // Возвращает DocumentFragment
+
+    let body = card.querySelector('.header');
+    body.append(icon);
 }
 
 function appendDescriptionByIndex(body, information, index) {

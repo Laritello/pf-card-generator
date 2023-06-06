@@ -25,26 +25,26 @@ function show() {
 
     let page = initializePage(printable);
     let spells = getFilteredSpells();
-
+  
     spells.forEach(element => {
-        let cards = render(cardType, element);
+      let cards = render(cardType, element);
 
-        cards.forEach(card => {
-            collection.append(card);
-            
-            //TODO: Включить обратно логику печати
-            //let nodes = collection.querySelectorAll('.card');
-            //let attached = nodes[nodes.length -1];
+      cards.forEach(card => {
+          collection.append(card);
 
-            //let copy = attached.cloneNode(true);
-            //page.append(copy);
-            //count = count + 1;
+          //TODO: Включить обратно логику печати
+          //let nodes = collection.querySelectorAll('.card');
+          //let attached = nodes[nodes.length -1];
 
-            // Каждые 9 карт создаем новую страницу
-            //if (count > 0 && count % 9 == 0)
-            //    page = initializePage(printable);
-        })
-    });
+          //let copy = attached.cloneNode(true);
+          //page.append(copy);
+          //count = count + 1;
+
+          // Каждые 9 карт создаем новую страницу
+          //if (count > 0 && count % 9 == 0)
+          //    page = initializePage(printable);
+      })
+  });
 }
 
 function initializePage(parent) {

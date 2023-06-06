@@ -240,3 +240,10 @@
     width: auto;
     transform: translateY(0.25em);
 }
+
+.heighten {
+    margin-top: 0mm;
+    margin-bottom: 2pt;
+    padding-bottom: 0;
+    padding-top: 0;
+}

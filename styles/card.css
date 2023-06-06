@@ -113,6 +113,34 @@
     color: white;
 }
 
+.card .next-page-icon {
+    z-index: 1;
+
+    position: absolute;
+    bottom: -3.5mm;
+    right: -3.5mm;
+
+    height: 10mm;
+    width: 10mm;
+
+    background-color: var(--base-color);
+
+    border: solid var(--border-color);
+    border-width: 0.7mm;
+    border-radius: 5mm;
+
+    clip-path: inset(0mm 3.5mm 3.5mm 0mm);
+}
+
+.card .next-page-icon img {
+    position: absolute;
+    top: 2mm;
+    left: 2mm;
+
+    height: 3mm;
+    width: 3mm;
+}
+
 /* Traits */
 .pf-trait {
     display: inline-block;

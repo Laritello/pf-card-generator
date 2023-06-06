@@ -46,12 +46,16 @@ function getSpells(name, cardType, components, levels) {
             return nameSort(a,b);
         
         return levelSortResult;
-    }).map(key => {
-        if(key in manualSpellsPatch) {
-            spells[key].description = manualSpellsPatch[key].description;
-            console.debug('Spell named "%s" is patched', key);
+    }).map(spellName => {
+        var originalSpell = spells[spellName];
+        // Проверяем словарь патчей на наличие подходяшего патча
+        if(spellName in manualSpellsPatch) {
+            let patch = manualSpellsPatch[spellName];
+            // Применяем патч к заклинанию
+            Object.assign(originalSpell, patch);
+            console.debug('Spell named "%s" is patched', spellName);
         }
-        return spells[key];
+        return originalSpell;
     });
 }
 

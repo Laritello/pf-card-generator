@@ -197,8 +197,8 @@
 
 .text-pf ul {
     list-style-type: disc;
-    padding-left: 3mm;
-    padding-bottom: 0;
+    padding-left: 5mm;
+    margin: 0; /* Убирает нижний отступ */ 
 }
 
 .text-pf ul li {

@@ -1,3 +1,4 @@
+import {render} from '../modules/renderer.js';
 import {createCard} from '../modules/generator.js';
 import {getSpells} from '../modules/provider.js';
 import { getSelectValues } from '../modules/utility.js';
@@ -12,7 +13,7 @@ function getFilteredSpells() {
     return spells;
 }
 
-function render() {
+function show() {
     let count = 0;
     let collection = document.getElementsByClassName("collection")[0];
     let printable = document.getElementsByClassName("printable")[0];
@@ -26,16 +27,22 @@ function render() {
     let spells = getFilteredSpells();
 
     spells.forEach(element => {
-        let cards = createCard(cardType, element, collection);
+        let cards = render(cardType, element);
 
         cards.forEach(card => {
-            let copy = card.cloneNode(true);
-            page.append(copy);
-            count = count + 1;
+            collection.append(card);
+            
+            //TODO: Включить обратно логику печати
+            //let nodes = collection.querySelectorAll('.card');
+            //let attached = nodes[nodes.length -1];
+
+            //let copy = attached.cloneNode(true);
+            //page.append(copy);
+            //count = count + 1;
 
             // Каждые 9 карт создаем новую страницу
-            if (count > 0 && count % 9 == 0)
-                page = initializePage(printable);
+            //if (count > 0 && count % 9 == 0)
+            //    page = initializePage(printable);
         })
     });
 }
@@ -52,5 +59,5 @@ function showPrint() {
     window.print();  
 }
 
-document.getElementById('showButton').addEventListener('click', render);
+document.getElementById('showButton').addEventListener('click', show);
 document.getElementById('printButton').addEventListener('click', showPrint);

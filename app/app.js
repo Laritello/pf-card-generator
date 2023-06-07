@@ -1,7 +1,11 @@
 import { render } from '../modules/renderer.js';
 import { createCard } from '../modules/generator.js';
 import { getSpells, getManualSpells } from '../modules/provider.js';
-import { getSelectValues } from '../modules/utility.js';
+import { getSelectValues, getCardHeader } from '../modules/utility.js';
+
+let template = $('#card_collection_template').html();
+let cardFunc = doT.template(template, undefined, undefined);
+
 
 function getFilteredSpells(sourceType) {
     let name = document.getElementById('spellNameField').value;
@@ -28,44 +32,48 @@ function show() {
 
     let page = initializePage(printable);
     let spells = getFilteredSpells(sourceType);
+    
+    let content = cardFunc({ 'spells': spells, 'cardType': cardType, 'cardTypeName': getCardHeader(cardType) });
 
-    switch (sourceType) {
-        case 'auto':
-            spells.forEach(element => {
-                let cards = createCard(cardType, element, collection);
+    $('.collection').html(content);
+
+    // switch (sourceType) {
+    //     case 'auto':
+    //         spells.forEach(element => {
+    //             let cards = createCard(cardType, element, collection);
         
-                cards.forEach(card => {
-                    let copy = card.cloneNode(true);
-                    page.append(copy);
-                    count = count + 1;
+    //             cards.forEach(card => {
+    //                 let copy = card.cloneNode(true);
+    //                 page.append(copy);
+    //                 count = count + 1;
         
-                    // Каждые 9 карт создаем новую страницу
-                    if (count > 0 && count % 9 == 0)
-                        page = initializePage(printable);
-                })
-            });
-            break;
-        case 'manual':
-            spells.forEach(element => {
-                let cards = render(cardType, element);
+    //                 // Каждые 9 карт создаем новую страницу
+    //                 if (count > 0 && count % 9 == 0)
+    //                     page = initializePage(printable);
+    //             })
+    //         });
+    //         break;
+    //     case 'manual':
+    //         spells.forEach(element => {
+    //             let cards = render(cardType, element);
         
-                cards.forEach(card => {
-                    collection.append(card);
+    //             cards.forEach(card => {
+    //                 collection.append(card);
                     
-                    let nodes = collection.querySelectorAll('.card');
-                    let attached = nodes[nodes.length -1];
+    //                 let nodes = collection.querySelectorAll('.card');
+    //                 let attached = nodes[nodes.length -1];
         
-                    let copy = attached.cloneNode(true);
-                    page.append(copy);
-                    count = count + 1;
+    //                 let copy = attached.cloneNode(true);
+    //                 page.append(copy);
+    //                 count = count + 1;
         
-                    // Каждые 9 карт создаем новую страницу
-                    if (count > 0 && count % 9 == 0)
-                        page = initializePage(printable);
-                })
-            });
-            break;
-    };
+    //                 // Каждые 9 карт создаем новую страницу
+    //                 if (count > 0 && count % 9 == 0)
+    //                     page = initializePage(printable);
+    //             })
+    //         });
+    //         break;
+    // };
 }
 
 function initializePage(parent) {

@@ -1,4 +1,5 @@
 import spells from '../data/spells.json' assert {type: 'json'};
+import { SpellFactory } from '../modules/spell.js';
 import manualSpellsPatch from '../data/spells_patch.json' assert {type: 'json'};
 
 const one_action_link = '<img src="static/1.png" class="text-img">';
@@ -55,7 +56,7 @@ function getSpells(name, cardType, components, levels) {
             Object.assign(originalSpell, patch);
             console.debug('Spell named "%s" is patched', spellName);
         }
-        return originalSpell;
+        return SpellFactory.create(originalSpell);
     });
 }
 

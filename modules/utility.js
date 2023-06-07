@@ -30,4 +30,45 @@ function getSelectValues(select) {
   return result;
 }
 
-export { getOverflownElements, getSelectValues };
+function getCardHeader(cardType) {
+  let header = "";
+
+  switch (cardType) {
+      case "arcane" : header = "Арканное"; break;
+      case "primal" : header = "Природное"; break;
+      case "divine" : header = "Сакральное"; break;
+      case "occult" : header = "Оккультное"; break;
+      case "focus" : header = "Фокус"; break;
+  };
+
+  return header;
+}
+
+const one_action_link = '<img src="static/1.png" class="text-img">';
+const two_action_link = '<img src="static/2.png" class="text-img">';
+const three_action_link = '<img src="static/3.png" class="text-img">';
+const reaction_link = '<img src="static/R.png" class="text-img">';
+const free_link = '<img src="static/F.png" class="text-img">';
+
+String.prototype.replaceActionMacro = function () {
+  return this
+    .replace('(a)', one_action_link)
+    .replace('(aa)', two_action_link)
+    .replace('(aaa)', three_action_link)
+    .replace('(r)', reaction_link)
+    .replace('(f)', free_link);
+}
+
+Array.prototype.replaceActionMacro = function () {
+  return this.map(item => item.replace('(a)', one_action_link)
+    .replace('(aa)', two_action_link)
+    .replace('(aaa)', three_action_link)
+    .replace('(r)', reaction_link)
+    .replace('(f)', free_link));
+}
+
+Array.prototype.replaceEach = function (what, to) {
+  return this.map(item => item.replace(what, to));
+}
+
+export { getOverflownElements, getSelectValues, getCardHeader };

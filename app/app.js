@@ -40,7 +40,6 @@ function show() {
     // spells.forEach(spell => spell.splitOverflowed(cardType));
     let overflowed = spells.filter(spell => spell.isOverflowed());
     overflowed.forEach(spell => spell.splitOverflowed(cardType));
-    console.log(overflowed);
 
     // switch (sourceType) {
     //     case 'auto':

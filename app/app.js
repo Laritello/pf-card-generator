@@ -1,7 +1,12 @@
 import { render } from '../modules/renderer.js';
 import { createCard } from '../modules/generator.js';
 import { getSpells, getManualSpells } from '../modules/provider.js';
-import { getSelectValues } from '../modules/utility.js';
+import { getSelectValues, getCardHeader } from '../modules/utility.js';
+
+let template = $('#card_collection_template').html();
+let renderCardHtml = doT.template(template, undefined, undefined);
+var spells = null;
+
 
 function getFilteredSpells(sourceType) {
     let name = document.getElementById('spellNameField').value;
@@ -16,7 +21,6 @@ function getFilteredSpells(sourceType) {
 }
 
 function show() {
-    let count = 0;
     let collection = document.getElementsByClassName("collection")[0];
     let printable = document.getElementsByClassName("printable")[0];
     let cardType = document.getElementById('cardTypeField').value;
@@ -27,45 +31,53 @@ function show() {
     printable.innerHTML = '';
 
     let page = initializePage(printable);
-    let spells = getFilteredSpells(sourceType);
+    spells = getFilteredSpells(sourceType);
+    let spell_pages = spells.chunks(9);
+    
+    let content = renderCardHtml({ 'pages': spell_pages, 'cardType': cardType, 'cardTypeName': getCardHeader(cardType) });
+    $('.collection').html(content);
 
-    switch (sourceType) {
-        case 'auto':
-            spells.forEach(element => {
-                let cards = createCard(cardType, element, collection);
+    // spells.forEach(spell => spell.splitOverflowed(cardType));
+    let overflowed = spells.filter(spell => spell.isOverflowed());
+    overflowed.forEach(spell => spell.splitOverflowed(cardType));
+
+    // switch (sourceType) {
+    //     case 'auto':
+    //         spells.forEach(element => {
+    //             let cards = createCard(cardType, element, collection);
         
-                cards.forEach(card => {
-                    let copy = card.cloneNode(true);
-                    page.append(copy);
-                    count = count + 1;
+    //             cards.forEach(card => {
+    //                 let copy = card.cloneNode(true);
+    //                 page.append(copy);
+    //                 count = count + 1;
         
-                    // Каждые 9 карт создаем новую страницу
-                    if (count > 0 && count % 9 == 0)
-                        page = initializePage(printable);
-                })
-            });
-            break;
-        case 'manual':
-            spells.forEach(element => {
-                let cards = render(cardType, element);
+    //                 // Каждые 9 карт создаем новую страницу
+    //                 if (count > 0 && count % 9 == 0)
+    //                     page = initializePage(printable);
+    //             })
+    //         });
+    //         break;
+    //     case 'manual':
+    //         spells.forEach(element => {
+    //             let cards = render(cardType, element);
         
-                cards.forEach(card => {
-                    collection.append(card);
+    //             cards.forEach(card => {
+    //                 collection.append(card);
                     
-                    let nodes = collection.querySelectorAll('.card');
-                    let attached = nodes[nodes.length -1];
+    //                 let nodes = collection.querySelectorAll('.card');
+    //                 let attached = nodes[nodes.length -1];
         
-                    let copy = attached.cloneNode(true);
-                    page.append(copy);
-                    count = count + 1;
+    //                 let copy = attached.cloneNode(true);
+    //                 page.append(copy);
+    //                 count = count + 1;
         
-                    // Каждые 9 карт создаем новую страницу
-                    if (count > 0 && count % 9 == 0)
-                        page = initializePage(printable);
-                })
-            });
-            break;
-    };
+    //                 // Каждые 9 карт создаем новую страницу
+    //                 if (count > 0 && count % 9 == 0)
+    //                     page = initializePage(printable);
+    //             })
+    //         });
+    //         break;
+    // };
 }
 
 function initializePage(parent) {

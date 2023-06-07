@@ -22,3 +22,4 @@
 # Использованные ресурсы
 - Текст взят с <a href="http://www.pf2e-ru-translation.readthedocs.io">русскоязычной вики</a>
 - Контрол <a href="https://github.com/snapappointments/bootstrap-select/blob/master/LICENSE">для множественного выбора</a>
+- Шаблонизатор <a href="https://github.com/olado/doT/blob/master/LICENSE-DOT.txt">doT.js</a>

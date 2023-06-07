@@ -155,6 +155,21 @@
         {{~}}
     </script>
 
+    <script id="card_back_side" type="text/x-dot-template">
+        <div id="{{=it.spell.id}}-1" class="card {{=it.cardType}}">
+            <div class="header">{{=it.cardTypeName}}</div>
+                <div class="content bg-pf">
+                    <div class="text-pf">
+                        {{~it.content:item}}
+                            {{=item}}
+                        {{~}}
+                    </div>
+                </div>
+                <div class="secondary" id="engNameField">{{=it.spell.name_en}}</div>
+            </div>
+        </div>
+    </script>
+
     <template>
         <div class="card">
             <div class="header"></div>

@@ -32,13 +32,15 @@ function show() {
 
     let page = initializePage(printable);
     spells = getFilteredSpells(sourceType);
-    let spell_groups = spells.chunks(9);
-
-    console.log(spell_groups);
+    let spell_pages = spells.chunks(9);
     
-    let content = renderCardHtml({ 'pages': spell_groups, 'cardType': cardType, 'cardTypeName': getCardHeader(cardType) });
-
+    let content = renderCardHtml({ 'pages': spell_pages, 'cardType': cardType, 'cardTypeName': getCardHeader(cardType) });
     $('.collection').html(content);
+
+    // spells.forEach(spell => spell.splitOverflowed(cardType));
+    let overflowed = spells.filter(spell => spell.isOverflowed());
+    overflowed.forEach(spell => spell.splitOverflowed(cardType));
+    console.log(overflowed);
 
     // switch (sourceType) {
     //     case 'auto':

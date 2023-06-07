@@ -115,40 +115,43 @@
     </body>
 
     <script id="card_collection_template" type="text/x-dot-template">
-        {{~it.spells:spell}}
-        <div id="{{=spell.id}}" class="card {{=it.cardType}}">
-            <div class="header">{{=it.cardTypeName}}</div>
-                <div class="content bg-pf">
-                    <div class="d-flex">
-                        <h1 id="nameField">{{=spell.name_ru}}</h1>
-                        <h1 id="levelField" class="ms-auto">{{=spell.level}}</h1>
-                    </div>
-                    <div id="nameSeparator" style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
-                    <div>
-                        {{~spell.traits:trait}}
-                            <div class="pf-trait">{{=trait}}</div>
-                        {{~}}
-                    </div>
-                    <div class="text-pf">
-                        <p class="hang"><strong>Обычай</strong> {{=spell.tradition}}</p>
-                        <p class="hang"><strong>Каст</strong> {{=spell.cast}}</p>
-                        {{=spell.getDistanceAreaTarget()}}
-                        {{=spell.getSavingThrowAndDuration()}}
+        {{~it.pages:page:i}}
+            <!-- Page -->
+            {{~page:spell}}
+                <div id="{{=spell.id}}" class="card {{=it.cardType}}">
+                    <div class="header">{{=it.cardTypeName}}</div>
+                    <div class="content bg-pf">
+                        <div class="d-flex">
+                            <h1 id="nameField">{{=spell.name_ru}}</h1>
+                            <h1 id="levelField" class="ms-auto">{{=spell.level}}</h1>
+                        </div>
                         <div id="nameSeparator" style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
-                        {{~spell.description:description}}
-                            {{=description}}
-                        {{~}}
-                        {{? spell.heightened != null}}
-                            <div id="nameSeparator" style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
-                            {{~spell.heightened:heightened}}
-                                {{=heightened}}
+                        <div>
+                            {{~spell.traits:trait}}
+                                <div class="pf-trait">{{=trait}}</div>
                             {{~}}
-                        {{?}}
+                        </div>
+                        <div class="text-pf">
+                            <p class="hang"><strong>Обычай</strong> {{=spell.tradition}}</p>
+                            <p class="hang"><strong>Каст</strong> {{=spell.cast}}</p>
+                            {{=spell.getDistanceAreaTarget()}}
+                            {{=spell.getSavingThrowAndDuration()}}
+                            <div id="nameSeparator" style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
+                            {{~spell.description:description}}
+                                {{=description}}
+                            {{~}}
+                            {{? spell.heightened != null}}
+                                <div id="nameSeparator" style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
+                                {{~spell.heightened:heightened}}
+                                    {{=heightened}}
+                                {{~}}
+                            {{?}}
+                        </div>
                     </div>
+                    <div class="secondary" id="engNameField">{{=spell.name_en}}</div>
                 </div>
-                <div class="secondary" id="engNameField">{{=spell.name_en}}</div>
-            </div>
-        </div>
+            {{~}}
+            <!-- /Page -->
         {{~}}
     </script>
 

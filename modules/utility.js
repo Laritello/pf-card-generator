@@ -71,4 +71,10 @@ Array.prototype.replaceEach = function (what, to) {
   return this.map(item => item.replace(what, to));
 }
 
+Array.prototype.chunks = function(chunkSize) {  
+  return Array.from({ length: Math.ceil(this.length / chunkSize) }, (v, i) =>
+    this.slice(i * chunkSize, i * chunkSize + chunkSize)
+  );
+}
+
 export { getOverflownElements, getSelectValues, getCardHeader };

@@ -36,6 +36,10 @@ class Spell {
         }
         return this.savingThrowAndDuration;
     }
+
+    getCardElement() {
+        return $('#'+this.id);
+    }
 }
 
 class SpellFactory {

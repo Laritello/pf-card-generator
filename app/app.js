@@ -4,7 +4,8 @@ import { getSpells, getManualSpells } from '../modules/provider.js';
 import { getSelectValues, getCardHeader } from '../modules/utility.js';
 
 let template = $('#card_collection_template').html();
-let cardFunc = doT.template(template, undefined, undefined);
+let renderCardHtml = doT.template(template, undefined, undefined);
+var spells = null;
 
 
 function getFilteredSpells(sourceType) {
@@ -20,7 +21,6 @@ function getFilteredSpells(sourceType) {
 }
 
 function show() {
-    let count = 0;
     let collection = document.getElementsByClassName("collection")[0];
     let printable = document.getElementsByClassName("printable")[0];
     let cardType = document.getElementById('cardTypeField').value;
@@ -31,9 +31,12 @@ function show() {
     printable.innerHTML = '';
 
     let page = initializePage(printable);
-    let spells = getFilteredSpells(sourceType);
+    spells = getFilteredSpells(sourceType);
+    let spell_groups = spells.chunks(9);
+
+    console.log(spell_groups);
     
-    let content = cardFunc({ 'spells': spells, 'cardType': cardType, 'cardTypeName': getCardHeader(cardType) });
+    let content = renderCardHtml({ 'pages': spell_groups, 'cardType': cardType, 'cardTypeName': getCardHeader(cardType) });
 
     $('.collection').html(content);
 

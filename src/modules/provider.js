@@ -1,32 +1,7 @@
-import spells from '../data/spells.json' assert {type: 'json'};
+import spells from '../assets/data/spells.json' with {type: 'json'};
+import spellsPatch from '../assets/data/spells_patch.json' with {type: 'json'};
+
 import { SpellFactory } from '../modules/spell.js';
-import manualSpellsPatch from '../data/spells_patch.json' assert {type: 'json'};
-
-const one_action_link = '<img src="static/1.png" class="text-img">';
-const two_action_link = '<img src="static/2.png" class="text-img">';
-const three_action_link = '<img src="static/3.png" class="text-img">';
-const reaction_link = '<img src="static/R.png" class="text-img">';
-const free_link = '<img src="static/F.png" class="text-img">';
-
-function getManualSpells(name, cardType, components, levels) {
-    return manualSpells
-    .filter(s => {
-        let nameChecked = nameCheck(s, name); 
-        let typeChecked = typeCheck(s, cardType);
-        let componentsChecked = componentsCheck(s, components);
-        let levelChecked = levelsCheck(s, levels);
-
-        return nameChecked && typeChecked && componentsChecked && levelChecked;
-    })
-    .sort((a,b) => {
-        let levelSortResult = levelSort(a,b);
-
-        if (levelSortResult == 0)
-            return nameSort(a,b);
-        
-        return levelSortResult;
-    });
-}
 
 function getSpells(name, cardType, components, levels) {
     return Object.keys(spells)
@@ -50,11 +25,10 @@ function getSpells(name, cardType, components, levels) {
     }).map(spellName => {
         var originalSpell = spells[spellName];
         // Проверяем словарь патчей на наличие подходяшего патча
-        if(spellName in manualSpellsPatch) {
-            let patch = manualSpellsPatch[spellName];
+        if(spellName in spellsPatch) {
+            let patch = spellsPatch[spellName];
             // Применяем патч к заклинанию
             Object.assign(originalSpell, patch);
-            console.debug('Spell named "%s" is patched', spellName);
         }
         return SpellFactory.create(originalSpell);
     });
@@ -122,7 +96,7 @@ function levelsCheck(spell, levels) {
     if (levels == null || levels.length == 0) return true;
     if (spell.level == null) return false;
 
-    if (levels.includes('0') && spell.traits != null && spell.traits.includes('чары'))
+    if (levels.includes(0) && spell.traits != null && spell.traits.includes('чары'))
         return true;
 
     for (let i = 0; i < levels.length; i++) {
@@ -138,4 +112,4 @@ function levelsCheck(spell, levels) {
     return false;
 }
 
-export { one_action_link, two_action_link, three_action_link, reaction_link, free_link, getSpells, getManualSpells };
+export { getSpells };

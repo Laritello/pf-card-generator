@@ -53,6 +53,9 @@ class Spell {
         }
         
         if (this.overflowedCache.length > 0) {
+            let icon = $('.next-page-icon',card);
+            icon[0].style.visibility = "visible";
+
             let rendered = renderCardBackHtml({ 'spell': this, 'content': this.overflowedCache.map((_, item) => item.outerHTML), 'cardType': cardType, 'cardTypeName': getCardHeader(cardType) });
             card.after(rendered);
         }

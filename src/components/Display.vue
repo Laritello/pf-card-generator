@@ -151,7 +151,8 @@
         background: var(--base-color);
         z-index: 1;
 
-        margin: 0 auto;
+        position:relative;
+        margin:0 auto;
         padding: 0.1mm 2mm 0.0mm 2mm;    
         align-self: flex-start;
 
@@ -181,7 +182,7 @@
     .card .next-page-icon {
         z-index: 1;
 
-        position: relative;
+        position: absolute;
         bottom: -3.5mm;
         right: -3.5mm;
 

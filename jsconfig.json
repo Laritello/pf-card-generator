@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",
-    "baseUrl": "./pf-card-generator/",
+    "baseUrl": "./",
     "moduleResolution": "node",
     "paths": {
       "@/*": [

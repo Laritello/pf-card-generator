@@ -22,8 +22,12 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
-      # Runs a single command using the runners shell
+      
+      # Устанавливает необходимые зависимости
+      - name: Setup Project
+        run: npm install
+        
+      # Получает продакшн билд
       - name: Run a one-line script
         run: npm run build
 

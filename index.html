@@ -1,6 +1,11 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/pf-card-generator/favicon.ico"><title>PF 2E: Генератор карт</title><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script><script src="scripts/doT.js"></script><style>@media print {
+            @page :first {
+                margin: -10mm 0 0 0;
+            }
+
             @page {
-            size: A4;
+                size: A4;
+                margin: 10mm 0 0 0;
             }
 
             body {
@@ -10,7 +15,11 @@
             .collection {
                 visibility: visible;
             }
-        }</style><script defer="defer" src="/pf-card-generator/js/chunk-vendors.f18a530f.js"></script><script defer="defer" src="/pf-card-generator/js/index.3825a79a.js"></script><link href="/pf-card-generator/css/chunk-vendors.d8c81d12.css" rel="stylesheet"><link href="/pf-card-generator/css/index.11a6649f.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but PF 2E: Генератор карт doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div></body><script id="card_collection_template" type="text/x-dot-template">{{~it.pages:page:i}}
+
+            .page-break {
+                page-break-after: always;
+            }
+        }</style><script defer="defer" src="/pf-card-generator/js/chunk-vendors.f4c85da0.js"></script><script defer="defer" src="/pf-card-generator/js/index.91104a49.js"></script><link href="/pf-card-generator/css/chunk-vendors.d8c81d12.css" rel="stylesheet"><link href="/pf-card-generator/css/index.51248f7e.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but PF 2E: Генератор карт doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div></body><script id="card_collection_template" type="text/x-dot-template">{{~it.pages:page:i}}
           <!-- Page -->
           {{~page:spell}}
               <div id="{{=spell.id}}" class="card {{=it.cardType}}">
@@ -47,7 +56,6 @@
                   <div class="next-page-icon" style="visibility:hidden"><img src="images/next_page.png"></div>
               </div>
           {{~}}
-          <div style="break-before: page"></div>
           <!-- /Page -->
       {{~}}</script><script id="card_back_side" type="text/x-dot-template"><div id="{{=it.spell.id}}-1" class="card {{=it.cardType}}">
           <div class="header">{{=it.cardTypeName}}</div>

@@ -12,7 +12,7 @@ module.exports = defineConfig({
     index: {
       // entry for the page
       entry: 'src/main.js',
-      title: 'PF2E: Генератор карт',
+      title: 'PF 2E: Генератор карт',
     },
   }
 })

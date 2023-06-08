@@ -166,11 +166,12 @@
 
             let spell_pages = spells.chunks(9);
             let content = renderCardHtml({ "pages": spell_pages, "cardType": cardType, "cardTypeName": getCardHeader(cardType) });
-
             //this.displayedSpells = content;
             $("#card-container").html(content);
             let overflowed = spells.filter(spell => spell.isOverflowed());
             overflowed.forEach(spell => spell.splitOverflowed(cardType));
+            // $("#card-container:nth-child(9n)").addClass('page-break');
+            $(".card:nth-child(9n+9)").addClass('page-break');
         },
         print() {
           window.print();

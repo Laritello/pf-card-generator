@@ -11,8 +11,13 @@
 
     <style>
         @media print {
+            @page :first {
+                margin: -10mm 0 0 0;
+            }
+
             @page {
-            size: A4;
+                size: A4;
+                margin: 10mm 0 0 0;
             }
 
             body {
@@ -21,6 +26,10 @@
 
             .collection {
                 visibility: visible;
+            }
+
+            .page-break {
+                page-break-after: always;
             }
         }
     </style>
@@ -71,7 +80,6 @@
                   <div class="next-page-icon" style="visibility:hidden"><img src="images/next_page.png"></div>
               </div>
           {{~}}
-          <div style="break-before: page"></div>
           <!-- /Page -->
       {{~}}
   </script>

@@ -147,6 +147,14 @@
         overflow:hidden;
     }
 
+    .card .content .name {
+        flex-shrink: 1;
+    }
+
+    .card .content .level {
+        white-space: nowrap;
+    }
+
     .card .header {
         background: var(--base-color);
         z-index: 1;

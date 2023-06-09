@@ -19,15 +19,15 @@
             .page-break {
                 page-break-after: always;
             }
-        }</style><script defer="defer" src="/pf-card-generator/js/chunk-vendors.f18a530f.js"></script><script defer="defer" src="/pf-card-generator/js/index.44cd8409.js"></script><link href="/pf-card-generator/css/chunk-vendors.d8c81d12.css" rel="stylesheet"><link href="/pf-card-generator/css/index.3a94d0c1.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but PF 2E: Генератор карт doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div></body><script id="card_collection_template" type="text/x-dot-template">{{~it.pages:page:i}}
+        }</style><script defer="defer" src="/pf-card-generator/js/chunk-vendors.64f1073f.js"></script><script defer="defer" src="/pf-card-generator/js/index.5f348be7.js"></script><link href="/pf-card-generator/css/chunk-vendors.d8c81d12.css" rel="stylesheet"><link href="/pf-card-generator/css/index.87fe2b4a.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but PF 2E: Генератор карт doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div></body><script id="card_collection_template" type="text/x-dot-template">{{~it.pages:page:i}}
           <!-- Page -->
           {{~page:spell}}
               <div id="{{=spell.id}}" class="card {{=it.cardType}}">
                   <div class="header">{{=it.cardTypeName}}</div>
                   <div class="content bg-pf">
                     <div class="d-flex">
-                        <h1 id="nameField">{{=spell.name_ru}}</h1>
-                        <h1 id="levelField" class="ms-auto">{{=spell.level}}</h1>
+                        <h1 id="nameField" class="name">{{=spell.name_ru}}</h1>
+                        <h1 id="levelField" class="level ms-auto">{{=spell.level}}</h1>
                     </div>
                     <div id="nameSeparator" style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
                     <div>

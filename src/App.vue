@@ -23,7 +23,7 @@
             @update:model-value="show()"
           ></v-combobox>
         </div>
-        <div style="padding: 0 20px 0 20px" @keyup="show()">
+        <div style="padding: 0 20px 0 20px" @keyup.once="show()">
           <v-text-field clearable label="Название" variant="outlined" v-model="spellName"></v-text-field>
         </div>
         <v-card outlined elevation="0">
@@ -72,6 +72,7 @@
         <Display 
           class="d-flex justify-center align-center h-100"
           :items="displayedSpells"
+          :cardType="activeCardType"
           :loading="loading">
         </Display>
       </v-main>
@@ -81,13 +82,8 @@
 
 <script>
   import { getSpells } from './modules/provider.js';
-  import { getCardHeader } from './modules/utility.js';
-  import { toRaw } from 'vue';
   import Display from './components/Display.vue';
 
-  let template = $('#card_collection_template').html();
-  let renderCardHtml = doT.template(template, undefined, undefined);
-  var spells = null;
 
   export default {
     data() {
@@ -95,6 +91,7 @@
             loading: false,
             displayedSpells: null,
             spellName: null,
+            cardType: "arcane",
             activeCardType: { text: "Арканное", value: "arcane" },
             cardTypes: [
                 { text: "Арканное", value: "arcane" },
@@ -146,9 +143,9 @@
         },
         getFilteredSpells() {
             let name = this.spellName;
-            let cardType = toRaw(this.activeCardType).value;
-            let components = toRaw(this.activeComponents);
-            let levels = toRaw(this.activeSpellLevels);
+            let cardType = this.activeCardType.value;
+            let components = this.activeComponents;
+            let levels = this.activeSpellLevels;
             return getSpells(name, cardType, components, levels);
         },
         initializePage(parent) {
@@ -158,20 +155,8 @@
             return page;
         },
         show() {
-            // Сбросить коллекции
-            this.displayedSpells = "";
-            
-            let cardType = toRaw(this.activeCardType).value;
-            spells = this.getFilteredSpells();
-
-            let spell_pages = spells.chunks(9);
-            let content = renderCardHtml({ "pages": spell_pages, "cardType": cardType, "cardTypeName": getCardHeader(cardType) });
-            //this.displayedSpells = content;
-            $("#card-container").html(content);
-            let overflowed = spells.filter(spell => spell.isOverflowed());
-            overflowed.forEach(spell => spell.splitOverflowed(cardType));
-            // $("#card-container:nth-child(9n)").addClass('page-break');
-            $(".card:nth-child(9n+9)").addClass('page-break');
+            console.log('show')
+            this.displayedSpells = this.getFilteredSpells();
         },
         print() {
           window.print();

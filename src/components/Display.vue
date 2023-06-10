@@ -12,9 +12,27 @@
 </template>
 
 <script>
+    import { getCardHeader } from '../modules/utility';
+    
+    let template = $('#card_collection_template').html();
+    let renderCardHtml = doT.template(template, undefined, undefined);
+
     export default {
         name: 'Display',
-        props: ['items', 'loading'],
+        props: ['items', 'cardType', 'loading'],
+
+        updated() {
+            console.log('Update');
+            let cardType = this.cardType.value;
+            let spells = this.items;
+            let rendered = renderCardHtml({ "spells": spells, "cardType": cardType, "cardTypeName": getCardHeader(cardType) });
+            $("#card-container").html(rendered);
+            setTimeout(() => {
+                let overflowed = spells.filter(spell => spell.isOverflowed());
+                overflowed.forEach(spell => spell.splitOverflowed(cardType));
+                $(".card:nth-child(9n+9)").addClass('page-break');
+            }, 1000);
+        }
     }
 </script>
 

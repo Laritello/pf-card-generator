@@ -23,7 +23,7 @@
             @update:model-value="show()"
           ></v-combobox>
         </div>
-        <div style="padding: 0 20px 0 20px" @keyup.once="show()">
+        <div style="padding: 0 20px 0 20px" @keydown="debounce(show, 500)">
           <v-text-field clearable label="Название" variant="outlined" v-model="spellName"></v-text-field>
         </div>
         <v-card outlined elevation="0">
@@ -81,6 +81,7 @@
 
 
 <script>
+  import { createDebounce } from './modules/utility';
   import { getSpells } from './modules/provider.js';
   import Display from './components/Display.vue';
 
@@ -155,12 +156,13 @@
             return page;
         },
         show() {
-            console.log('show')
             this.displayedSpells = this.getFilteredSpells();
         },
         print() {
           window.print();
-        }
+        },
+        
+        debounce: createDebounce()
     },
     mounted(){
         this.show()

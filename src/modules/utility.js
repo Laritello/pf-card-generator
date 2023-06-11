@@ -1,4 +1,4 @@
-function getOverflownElements(element) {
+  function getOverflownElements(element) {
     let parent = $(element).parent();
     let children = $(element).children();
     let parentHeight = parent.outerHeight(false);
@@ -12,7 +12,17 @@ function getOverflownElements(element) {
   
     return overflown;
   }
-  
+
+  function createDebounce() {
+    let timeout = null;
+    return function (fnc, delayMs) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        fnc();
+      }, delayMs || 500);
+    };
+  }
+
   // Получить выбранные значения в select
   function getSelectValues(select) {
     var result = [];
@@ -77,4 +87,4 @@ function getOverflownElements(element) {
     );
   }
   
-  export { getOverflownElements, getSelectValues, getCardHeader };
+  export { getOverflownElements, getSelectValues, getCardHeader, createDebounce };

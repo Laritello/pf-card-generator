@@ -22,7 +22,6 @@
         props: ['items', 'cardType', 'loading'],
 
         updated() {
-            console.log('Update');
             let cardType = this.cardType.value;
             let spells = this.items;
             let rendered = renderCardHtml({ "spells": spells, "cardType": cardType, "cardTypeName": getCardHeader(cardType) });
@@ -163,6 +162,14 @@
         border-style: solid;
         padding: 1mm;
         overflow:hidden;
+    }
+
+    .card .content .name {
+        flex-shrink: 1;
+    }
+
+    .card .content .level {
+        white-space: nowrap;
     }
 
     .card .header {

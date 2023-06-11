@@ -2,7 +2,7 @@
     <v-app>
         <v-app-bar>
             <v-app-bar-title>
-                <v-img src="./assets/logo.png" height="50" width="50"></v-img>
+                <v-img src="../assets/logo.png" height="50" width="50"></v-img>
             </v-app-bar-title>
             <v-btn icon="mdi-github" href="https://github.com/Laritello/pf-card-generator"></v-btn>
             <v-btn icon="mdi-printer" @click="print()"></v-btn>
@@ -64,8 +64,8 @@
 </template>
 
 <script>
-import { getSpells, filterSpells } from "./modules/provider.js";
-import Display from "./components/Display.vue";
+import { getSpells, filterSpells } from "../modules/provider.js";
+import Display from "./Display.vue";
 
 export default {
     data() {
@@ -140,8 +140,8 @@ export default {
 </script>
 
 <style>
-@import "./styles/main.css";
-@import "./styles/font.css";
+@import "../styles/main.css";
+@import "../styles/font.css";
 
 #collection {
     display: flex;

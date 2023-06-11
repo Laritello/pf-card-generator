@@ -13,16 +13,6 @@
     return overflown;
   }
 
-  function createDebounce() {
-    let timeout = null;
-    return function (fnc, delayMs) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        fnc();
-      }, delayMs || 500);
-    };
-  }
-
   // Получить выбранные значения в select
   function getSelectValues(select) {
     var result = [];
@@ -87,4 +77,4 @@
     );
   }
   
-  export { getOverflownElements, getSelectValues, getCardHeader, createDebounce };
+  export { getOverflownElements, getSelectValues, getCardHeader };

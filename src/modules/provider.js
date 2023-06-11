@@ -48,12 +48,12 @@ function componentsCheck(spell, components) {
     if (spell.cast == null) return false;
 
     for (let i = 0; i < components.length; i++) {
-        if (spell.cast.indexOf(components[i]) > -1) {
-            return true;
+        if (spell.cast.indexOf(components[i]) < 0) {
+            return false;
         }
     }
 
-    return false;
+    return true;
 }
 
 function levelsCheck(spell, levels) {

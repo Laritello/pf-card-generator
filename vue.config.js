@@ -14,5 +14,8 @@ module.exports = defineConfig({
       entry: 'src/main.js',
       title: 'PF 2E: Генератор карт',
     },
+  },
+  configureWebpack: {
+    devtool: 'source-map'
   }
 })

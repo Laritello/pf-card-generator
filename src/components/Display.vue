@@ -21,16 +21,26 @@
         name: 'Display',
         props: ['items', 'cardType', 'loading'],
 
+        methods: {
+            customRenderer() {
+                let cardType = this.cardType.value;
+                let spells = this.items;
+                let rendered = renderCardHtml({ "spells": spells, "cardType": cardType, "cardTypeName": getCardHeader(cardType) });
+                $("#card-container").html(rendered);
+                setTimeout(() => {
+                    let overflowed = spells.filter(spell => spell.isOverflowed());
+                    overflowed.forEach(spell => spell.splitOverflowed(cardType));
+                    $(".card:nth-child(9n+9)").addClass('page-break');
+                }, 1000);
+            }
+        },
+
+        mounted() {
+            this.customRenderer();
+        },
+
         updated() {
-            let cardType = this.cardType.value;
-            let spells = this.items;
-            let rendered = renderCardHtml({ "spells": spells, "cardType": cardType, "cardTypeName": getCardHeader(cardType) });
-            $("#card-container").html(rendered);
-            setTimeout(() => {
-                let overflowed = spells.filter(spell => spell.isOverflowed());
-                overflowed.forEach(spell => spell.splitOverflowed(cardType));
-                $(".card:nth-child(9n+9)").addClass('page-break');
-            }, 1000);
+            this.customRenderer();
         }
     }
 </script>

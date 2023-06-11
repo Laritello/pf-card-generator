@@ -20,19 +20,17 @@
             item-value="value"
             variant="outlined"
             label="Тип"
-            @update:model-value="show()"
           ></v-combobox>
         </div>
-        <div style="padding: 0 20px 0 20px" @keydown="debounce(show, 500)">
+        <div style="padding: 0 20px 0 20px">
           <v-text-field clearable label="Название" variant="outlined" v-model="spellName"></v-text-field>
         </div>
         <v-card outlined elevation="0">
           <v-expansion-panels  variant="accordion" class="elevation-0" multiple>
             <v-expansion-panel title="Уровни заклинаний">
                 <v-expansion-panel-text>
-                  <v-list select-strategy="classic" @update:selected="show()">
-                    <v-list-item v-for="(item,idx) in spellLevels" 
-                          @click="toggleActive(item.value)" 
+                  <v-list select-strategy="classic" v-model:selected="activeSpellLevels">
+                    <v-list-item v-for="(item,idx) in spellLevels"
                           :key="idx"
                           :value="item.value">
                           <template v-slot:prepend="{ isActive }">
@@ -49,9 +47,8 @@
             <v-expansion-panel>
               <v-expansion-panel-title>Компоненты</v-expansion-panel-title>
               <v-expansion-panel-text>
-                  <v-list select-strategy="classic" @update:selected="show()">
-                    <v-list-item v-for="(item,idx) in components" 
-                          @click="toggleActiveComponent(item.value)" 
+                  <v-list select-strategy="classic" v-model:selected="activeComponents">
+                    <v-list-item v-for="(item,idx) in components"
                           :key="idx"
                           :value="item.value">
                           <template v-slot:prepend="{ isActive }">
@@ -71,7 +68,7 @@
       <v-main style="min-height: 300px;">
         <Display 
           class="d-flex justify-center align-center h-100"
-          :items="displayedSpells"
+          :items="filteredSpells"
           :cardType="activeCardType"
           :loading="loading">
         </Display>
@@ -81,8 +78,7 @@
 
 
 <script>
-  import { createDebounce } from './modules/utility';
-  import { getSpells } from './modules/provider.js';
+  import { getSpells, filterSpells } from './modules/provider.js';
   import Display from './components/Display.vue';
 
 
@@ -90,10 +86,12 @@
     data() {
         return {
             loading: false,
-            displayedSpells: null,
-            spellName: null,
-            cardType: "arcane",
+            allSpells: getSpells(),
+            spellName: '',
             activeCardType: { text: "Арканное", value: "arcane" },
+            activeComponents: [],
+            activeSpellLevels: [],
+
             cardTypes: [
                 { text: "Арканное", value: "arcane" },
                 { text: "Сакральное", value: "divine" },
@@ -101,6 +99,7 @@
                 { text: "Оккультное", value: "occult" },
                 { text: "Фокус", value: "focus" },
             ],
+
             components: [
                 {
                     text: "Жестовый",
@@ -115,7 +114,7 @@
                     value: "материальный"
                 }
             ],
-            activeComponents: [],
+            
             spellLevels: [
                 { text: "Чары", value: 0 },
                 { text: "Уровень 1", value: 1 },
@@ -129,44 +128,30 @@
                 { text: "Уровень 9", value: 9 },
                 { text: "Уровень 10", value: 10 },
             ],
-            activeSpellLevels: [],
+            
             drawer: null,
         };
     },
     methods: {
-        toggleActive(idx) {
-            let pos = this.activeSpellLevels.indexOf(idx);
-            pos === -1 ? this.activeSpellLevels.push(idx) : this.activeSpellLevels.splice(pos, 1);
-        },
-        toggleActiveComponent(idx) {
-            let pos = this.activeComponents.indexOf(idx);
-            pos === -1 ? this.activeComponents.push(idx) : this.activeComponents.splice(pos, 1);
-        },
-        getFilteredSpells() {
-            let name = this.spellName;
-            let cardType = this.activeCardType.value;
-            let components = this.activeComponents;
-            let levels = this.activeSpellLevels;
-            return getSpells(name, cardType, components, levels);
-        },
-        initializePage(parent) {
-            let page = document.createElement("div");
-            page.classList.add("printable-page");
-            parent.append(page);
-            return page;
-        },
-        show() {
-            this.displayedSpells = this.getFilteredSpells();
-        },
         print() {
           window.print();
-        },
-        
-        debounce: createDebounce()
+        }
     },
-    mounted(){
-        this.show()
+    
+    computed: {
+      filteredSpells() {
+        let name = this.spellName;
+        let cardType = this.activeCardType.value;
+        let components = this.activeComponents;
+        let levels = this.activeSpellLevels;
+        console.log('filter', name, cardType, components, levels);
+        return this.allSpells.filter(spell => filterSpells(spell, name, cardType, components, levels));
+      }
     },
+
+    // mounted() {
+    //   this.activeCardType = { text: "Арканное", value: "arcane" };
+    // },
     components: { Display }
 }
 </script>

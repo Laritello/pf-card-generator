@@ -1,22 +1,22 @@
-import spells from '../assets/data/spells.json' with {type: 'json'};
-import spellsPatch from '../assets/data/spells_patch.json' with {type: 'json'};
+import spells from '../assets/data/spells.json' with { type: 'json' };
+import spellsPatch from '../assets/data/spells_patch.json' with { type: 'json' };
 
 import { SpellFactory } from '../modules/spell.js';
 
 function getSpells() {
     return Object.keys(spells).map(spellName => {
         var originalSpell = spells[spellName];
-        if(spellName in spellsPatch) {
+        if (spellName in spellsPatch) {
             let patch = spellsPatch[spellName];
             // Применяем патч к заклинанию
             Object.assign(originalSpell, patch);
         }
         return SpellFactory.create(originalSpell);
-    }).sort((a, b) => a.compare(b));    
+    }).sort((a, b) => a.compare(b));
 }
 
 function filterSpells(spell, name, cardType, components, levels) {
-    let nameChecked = nameCheck(spell, name); 
+    let nameChecked = nameCheck(spell, name);
     let typeChecked = typeCheck(spell, cardType);
     let componentsChecked = componentsCheck(spell, components);
     let levelChecked = levelsCheck(spell, levels);
@@ -34,12 +34,12 @@ function typeCheck(spell, type) {
     if (type == null) return true;
     if (spell.tradition == null) return false;
 
-    switch(type) {
-        case "arcane" : return spell.tradition.includes('арканный');
-        case "primal" : return spell.tradition.includes('природный');
-        case "divine" : return spell.tradition.includes('сакральный');
-        case "occult" : return spell.tradition.includes('оккультный');
-        case "focus"  : return spell.tradition.includes('фокус');
+    switch (type) {
+        case "arcane": return spell.tradition.includes('арканный');
+        case "primal": return spell.tradition.includes('природный');
+        case "divine": return spell.tradition.includes('сакральный');
+        case "occult": return spell.tradition.includes('оккультный');
+        case "focus": return spell.tradition.includes('фокус');
     };
 }
 
@@ -72,7 +72,7 @@ function levelsCheck(spell, levels) {
             return true;
         }
     }
-    
+
     return false;
 }
 

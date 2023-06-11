@@ -1,4 +1,6 @@
 import { getOverflownElements, getCardHeader } from "./utility.js";
+import { doT } from "./doT.js"
+
 let template = $('#card_back_side').html();
 let renderCardBackHtml = doT.template(template, undefined, undefined);
 
@@ -11,22 +13,22 @@ class Spell {
         this.heightened = spell.heightened?.replaceActionMacro();
         this.distanceAreaTarget = null;
         this.savingThrowAndDuration = null;
- 
+
         this.overflowedCache = null;
     }
 
     getLevel() {
-        let type = this.traits.includes('чары')  ? 'Чары ' : 'Закл. ';
+        let type = this.traits.includes('чары') ? 'Чары ' : 'Закл. ';
         return type + this.level;
     }
 
     getDistanceAreaTarget() {
-        if(this.distanceAreaTarget === null) {
-            let items = [{ 'name': 'Дистанция','value': this.distance },
-                    { 'name': 'Область','value': this.area },
-                    { 'name': 'Цели','value': this.target }]
-                    .filter(item => item.value != null)
-                    .map(item => '<strong>' + item.name + '</strong> ' + item.value);
+        if (this.distanceAreaTarget === null) {
+            let items = [{ 'name': 'Дистанция', 'value': this.distance },
+            { 'name': 'Область', 'value': this.area },
+            { 'name': 'Цели', 'value': this.target }]
+                .filter(item => item.value != null)
+                .map(item => '<strong>' + item.name + '</strong> ' + item.value);
             this.distanceAreaTarget = items.join('; ');
         }
         return this.distanceAreaTarget;
@@ -34,17 +36,17 @@ class Spell {
 
     getSavingThrowAndDuration() {
         if (this.savingThrowAndDuration === null) {
-            let items = [{ 'name': 'Спасбросок','value': this.saves },
-                    { 'name': 'Продолжительность','value': this.duration }]
-                    .filter(item => item.value != null)
-                    .map(item => '<strong>' + item.name + '</strong> ' + item.value);
+            let items = [{ 'name': 'Спасбросок', 'value': this.saves },
+            { 'name': 'Продолжительность', 'value': this.duration }]
+                .filter(item => item.value != null)
+                .map(item => '<strong>' + item.name + '</strong> ' + item.value);
             this.savingThrowAndDuration = items.join('; ');
         }
         return this.savingThrowAndDuration;
     }
 
     getCardElement() {
-        return $('#'+this.id);
+        return $('#' + this.id);
     }
 
     splitOverflowed(cardType) {
@@ -53,9 +55,9 @@ class Spell {
             let content = $('.text-pf', card);
             this.overflowedCache = getOverflownElements(content);
         }
-        
+
         if (this.overflowedCache.length > 0) {
-            let icon = $('.next-page-icon',card);
+            let icon = $('.next-page-icon', card);
             icon[0].style.visibility = "visible";
 
             let rendered = renderCardBackHtml({ 'spell': this, 'content': this.overflowedCache.map((_, item) => item.outerHTML), 'cardType': cardType, 'cardTypeName': getCardHeader(cardType) });
@@ -87,10 +89,10 @@ class Spell {
 function levelCompare(a, b) {
     if (a.level > b.level)
         return 1;
-    
+
     if (a.level < b.level)
         return -1;
-    
+
     // Если уровень одинаковый - делаем проверку на чары
     return cantripCompare(a, b);
 }
@@ -107,7 +109,7 @@ function cantripCompare(a, b) {
         return -1;
 }
 
-function nameCompare(a,b) {
+function nameCompare(a, b) {
     return a.name_ru > b.name_ru ? 1 : -1;
 }
 
@@ -118,7 +120,7 @@ class SpellFactory {
         if (id in this.#cache) {
             return this.#cache[id];
         }
-        
+
         let result = new Spell(id, spell);
         this.#cache[id] = result;
         return result;

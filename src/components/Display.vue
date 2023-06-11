@@ -2,9 +2,6 @@
     <v-container fill-height full-width fluid>
         <v-row>
             <v-col justify-center>
-                <div style="text-align: center;" v-if="loading">
-                    <v-progress-circular model-value="20" :size="128" :width="8" indeterminate></v-progress-circular>
-                </div>
                 <div id="card-container" class="justify-center align-center collection"></div>
             </v-col>
         </v-row>
@@ -20,7 +17,7 @@ let renderCardHtml = doT.template(template, undefined, undefined);
 
 export default {
     name: 'Display',
-    props: ['items', 'cardType', 'loading'],
+    props: ['items', 'cardType'],
 
     methods: {
         customRenderer() {

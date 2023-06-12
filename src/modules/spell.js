@@ -68,11 +68,8 @@ class Spell {
 
     isOverflowed() {
         let card = this.getCardElement();
-        let content = $('.text-pf', card);
-        this.overflowedCache = getOverflownElements(content);
-        if (this.overflowedCache.length > 0) {
-            return true;
-        }
+        let content = $('.content', card)[0];
+        return content.scrollHeight > content.offsetHeight;
     }
 
     compare(anotherSpell) {

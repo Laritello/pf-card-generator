@@ -25,12 +25,9 @@ export default {
             let spells = this.items;
             let rendered = renderCardHtml({ "spells": spells, "cardType": cardType, "cardTypeName": getCardHeader(cardType) });
             $("#card-container").html(rendered);
-            
-            document.fonts.ready.then(() => {
-                let overflowed = spells.filter(spell => spell.isOverflowed());
-                overflowed.forEach(spell => spell.splitOverflowed(cardType));
-                $(".card:nth-child(9n+9)").addClass('page-break');
-            });
+            let overflowed = spells.filter(spell => spell.isOverflowed());
+            overflowed.forEach(spell => spell.splitOverflowed(cardType));
+            $(".card:nth-child(9n+9)").addClass('page-break');
         }
     },
 

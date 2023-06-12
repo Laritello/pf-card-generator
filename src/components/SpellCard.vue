@@ -83,7 +83,6 @@ export default {
     },
 
     updated() {
-        console.log('Card update');
         this.customRender();
     }
 }

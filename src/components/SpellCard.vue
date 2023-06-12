@@ -21,7 +21,7 @@
         </div>
         <div class="secondary" id="engNameField">{{spell.name_en}}</div>
         <div style="position:relative;">
-            <div class="next-page-icon" style="visibility:hidden"><img src="images/next_page.png"></div>
+            <div v-if="isOverflowed" class="next-page-icon"><img src="images/next_page.png"></div>
         </div>
     </div>
     <div v-if="isOverflowed" :id="spell.id+'-1'" :class="cardType.value" class="card">

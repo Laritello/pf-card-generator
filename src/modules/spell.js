@@ -23,7 +23,11 @@ class Spell {
     }
 
     getTraditions() {
-        return this.tradition.join(', ');
+        return '<strong>Обычай</strong> ' + this.tradition.join(', ');
+    }
+
+    getCast() {
+        return '<strong>Каст</strong> ' + this.cast;
     }
 
     getDistanceAreaTarget() {
@@ -49,10 +53,6 @@ class Spell {
         return this.savingThrowAndDuration;
     }
 
-    getCardElement() {
-        return $('#' + this.id);
-    }
-
     splitOverflowed(cardType) {
         let card = this.getCardElement();
         let content = $('.text-pf', card);
@@ -63,11 +63,15 @@ class Spell {
             this.overflowedCache.parentNode = content;
             $('.next-page-icon', card).css('visibility', 'visible');
 
-            let rendered = renderCardBackHtml({ 'spell': this, 'content': this.overflowedCache.map((_, item) => item.outerHTML), 'cardType': cardType, 'cardTypeName': getCardHeader(cardType) });
+            let rendered = renderCardBackHtml({ 
+                'spell': this, 
+                'content': this.overflowedCache.map((_, item) => item.outerHTML), 
+                'cardType': cardType, 
+                'cardTypeName': getCardHeader(cardType) 
+            });
             card.after(rendered);
             this.overflowedCache.remove();
         }
-        
     }
 
     isOverflowed() {

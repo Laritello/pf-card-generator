@@ -90,8 +90,8 @@
     </script>
 
   <script id="card_back_side" type="text/x-dot-template">
-      <div id="{{=it.spell.id}}-1" class="card {{=it.cardType}}">
-          <div class="header">{{=it.cardTypeName}}</div>
+      <div id="{{=it.spell.id}}-1" class="card {{=it.cardType.value}}">
+          <div class="header">{{=it.cardType.text}}</div>
               <div class="content bg-pf">
                   <div class="text-pf">
                       {{~it.content:item}}

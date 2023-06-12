@@ -17,4 +17,4 @@ npm run build
 
 ## Использованные ресурсы
 - Текст взят с <a href="http://www.pf2e-ru-translation.readthedocs.io">русскоязычной вики</a>
-- Шаблонизатор <a href="https://github.com/olado/doT/blob/master/LICENSE-DOT.txt">doT.js</a>
+- Основано на <a href="https://github.com/vuejs/core/blob/main/LICENSE">vue.js</a>

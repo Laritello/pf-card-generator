@@ -2,34 +2,25 @@
     <v-container fill-height full-width fluid>
         <v-row>
             <v-col justify-center>
-                <div id="card-container" class="justify-center align-center collection"></div>
+                <div id="card-container" class="justify-center align-center collection">
+                    <spell-card v-for="item in items" :spell="item" :cardType="cardType" />
+                </div>
             </v-col>
         </v-row>
     </v-container>
 </template>
 
 <script>
-import { getCardHeader } from "../modules/utility";
-import { doT } from "../modules/doT.js"
-
-let template = $('#card_collection_template').html();
-let renderCardHtml = doT.template(template, undefined, undefined);
+import SpellCard  from "./SpellCard.vue"
 
 export default {
     name: 'Display',
     props: ['items', 'cardType'],
+    components: { SpellCard },
 
     methods: {
         customRenderer() {
-            let cardType = this.cardType.value;
-            let spells = this.items;
-            let rendered = renderCardHtml({ "spells": spells, "cardType": cardType, "cardTypeName": getCardHeader(cardType) });
-            $("#card-container").html(rendered);
-            setTimeout(() => {
-                let overflowed = spells.filter(spell => spell.isOverflowed());
-                overflowed.forEach(spell => spell.splitOverflowed(cardType));
-                $(".card:nth-child(9n+9)").addClass('page-break');
-            }, 1000);
+            $(".card:nth-child(9n+9)").addClass('page-break');
         }
     },
 

@@ -5,6 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="preload" as="font" href="<%= require('@/fonts/ff-good-pro-bold.woff2') %>" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="<%= require('@/fonts/ff-good-pro-bold-italic.woff2') %>" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="<%= require('@/fonts/ff-good-pro-regular.woff2') %>" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="<%= require('@/fonts/ff-good-pro-regular-italic.woff2') %>" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="<%= require('@/fonts/ff-good-pro-condensed-bold.woff2') %>" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="<%= require('@/fonts/ff-good-pro-condensed-bold-italic.woff2') %>" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="<%= require('@/fonts/ff-good-pro-condensed-regular.woff2') %>" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="<%= require('@/fonts/ff-good-pro-condensed-regular-italic.woff2') %>" type="font/woff2" crossorigin="anonymous">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -40,75 +48,4 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
-
-    <script id="card_collection_template" type="text/x-dot-template">
-        {{~it.spells:spell}}
-            <div id="{{=spell.id}}" class="card {{=it.cardType}}">
-                <div class="header">{{=it.cardTypeName}}</div>
-                <div class="content bg-pf">
-                <div class="d-flex">
-                    <h1 id="nameField" class="name">{{=spell.name_ru}}</h1>
-                    <h1 id="levelField" class="level ms-auto">{{=spell.getLevel()}}</h1>
-                </div>
-                <div id="nameSeparator" style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
-                <div>
-                    {{~spell.traits:trait}}
-                        <div class="pf-trait">{{=trait}}</div>
-                    {{~}}
-                </div>
-                <div class="text-pf">
-                    <p class="hang"><strong>Обычай</strong> {{=spell.tradition}}</p>
-                    <p class="hang"><strong>Каст</strong> {{=spell.cast}}</p>
-                    {{=spell.getDistanceAreaTarget()}}
-                    {{=spell.getSavingThrowAndDuration()}}
-                    <div id="nameSeparator" style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
-                    {{~spell.description:description}}
-                        {{=description}}
-                    {{~}}
-                    {{? spell.heightened != null}}
-                        <div id="nameSeparator" style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
-                        {{~spell.heightened:heightened}}
-                            {{=heightened}}
-                        {{~}}
-                    {{?}}
-                </div>
-            </div>
-            <div class="secondary" id="engNameField">{{=spell.name_en}}</div>
-                <div style="position:relative;">
-                <div class="next-page-icon" style="visibility:hidden"><img src="images/next_page.png"></div>
-                </div>
-            </div>
-        {{~}}
-    </script>
-
-  <script id="card_back_side" type="text/x-dot-template">
-      <div id="{{=it.spell.id}}-1" class="card {{=it.cardType}}">
-          <div class="header">{{=it.cardTypeName}}</div>
-              <div class="content bg-pf">
-                  <div class="text-pf">
-                      {{~it.content:item}}
-                          {{=item}}
-                      {{~}}
-                  </div>
-              </div>
-              <div class="secondary" id="engNameField">{{=it.spell.name_en}}</div>
-          </div>
-      </div>
-  </script>
-
-  <template>
-      <div class="card">
-          <div class="header"></div>
-              <div class="content bg-pf">
-                  <div class="d-flex">
-                      <h1 id="nameField"></h1>
-                      <h1 id="levelField" class="ms-auto"></h1>
-                  </div>
-                  <div id="nameSeparator" style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
-                  <div class="text-pf"></div>
-              </div>
-              <div class="secondary" id="engNameField"></div>
-          </div>
-      </div>
-  </template>
 </html>

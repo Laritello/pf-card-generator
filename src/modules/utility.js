@@ -1,16 +1,13 @@
-function getOverflownElements(element) {
-    let parent = $(element).parent();
-    let children = $(element).children();
-    let parentHeight = parent.outerHeight(false);
-    let overflown = children.filter((i, c) => {
-        let child = $(c);
-        let position = child.position();
-        var bottom = position.top + child.outerHeight(true); // true = +margin
+function getOverflowedElements(parent, element) {
+    let children = Array.from(element.children);
+    let parentBottomEdge = parent.offsetHeight;
 
-        return bottom > parentHeight;
+    let overflowed = children.filter(child => {
+        var childBottomEdge = child.offsetTop + child.offsetHeight;
+        return childBottomEdge > parentBottomEdge;
     });
 
-    return overflown;
+    return overflowed;
 }
 
 // Получить выбранные значения в select
@@ -77,4 +74,4 @@ Array.prototype.chunks = function (chunkSize) {
     );
 }
 
-export { getOverflownElements, getSelectValues, getCardHeader };
+export { getOverflowedElements, getSelectValues, getCardHeader };

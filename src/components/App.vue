@@ -56,8 +56,9 @@
         </v-navigation-drawer>
 
         <v-main style="min-height: 300px">
-            <Display class="d-flex justify-center align-center h-100" :items="filteredSpells" :cardType="activeCardType">
-            </Display>
+            <Display class="d-flex justify-center align-center h-100" 
+            :items="filteredSpells" 
+            :cardType="activeCardType"/>
         </v-main>
     </v-app>
 </template>

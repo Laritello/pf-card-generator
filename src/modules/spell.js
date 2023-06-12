@@ -1,8 +1,4 @@
 import { getOverflownElements, getCardHeader } from "./utility.js";
-import { doT } from "./doT.js"
-
-let template = $('#card_back_side').html();
-let renderCardBackHtml = doT.template(template, undefined, undefined);
 
 class Spell {
     constructor(id, spell) {

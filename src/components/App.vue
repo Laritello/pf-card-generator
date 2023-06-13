@@ -124,6 +124,21 @@ export default {
         },
     },
 
+    mounted() {
+        this._keyListener = function(e) {
+            if (e.key === "p" && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                this.print();
+            }
+        };
+
+        document.addEventListener('keydown', this._keyListener.bind(this));
+    },
+
+    beforeDestroy() {
+        document.removeEventListener('keydown', this._keyListener);
+    },
+
     computed: {
         filteredSpells() {
             let name = this.spellName;

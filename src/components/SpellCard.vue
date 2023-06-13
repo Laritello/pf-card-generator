@@ -44,12 +44,7 @@ export default {
     data() {
         return {
             isOverflowed: false,
-            overflowPosition: -1,
-            description: [
-                ...this.spell.description, 
-                ...this.spell.heightened ? ['<div style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>'] : [],
-                ...this.spell.heightened ?? []
-            ]
+            overflowPosition: -1
 
         }
     },
@@ -67,6 +62,14 @@ export default {
         }
     },
     computed: {
+        description() {
+            return [
+                ...this.spell.description, 
+                ...this.spell.heightened ? ['<div style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>'] : [],
+                ...this.spell.heightened ?? []
+            ]
+        },
+
         frontSideDescription() {
             if(!this.isOverflowed) return this.description;
             return this.description.slice(0, this.overflowPosition);

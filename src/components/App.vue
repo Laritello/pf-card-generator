@@ -119,6 +119,7 @@ export default {
     },
     methods: {
         print() {
+            $(".card:nth-child(9n+9)").addClass('page-break');
             window.print();
         },
     },

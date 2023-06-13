@@ -52,6 +52,7 @@ export default {
             ]
         }
     },
+
     methods: {
         customRender() {
             if (this.isOverflowed) return;
@@ -63,6 +64,7 @@ export default {
             }
         }
     },
+    
     computed: {
         frontSideDescription() {
             if (!this.isOverflowed) return this.description;

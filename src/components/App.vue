@@ -119,8 +119,24 @@ export default {
     },
     methods: {
         print() {
+            $(".card:nth-child(9n+9)").addClass('page-break');
             window.print();
         },
+    },
+
+    mounted() {
+        this._keyListener = function(e) {
+            if (e.key === "p" && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                this.print();
+            }
+        };
+
+        document.addEventListener('keydown', this._keyListener.bind(this));
+    },
+
+    beforeDestroy() {
+        document.removeEventListener('keydown', this._keyListener);
     },
 
     computed: {

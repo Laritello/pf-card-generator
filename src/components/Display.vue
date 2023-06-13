@@ -3,7 +3,7 @@
         <v-row>
             <v-col justify-center>
                 <div id="card-container" class="justify-center align-center collection">
-                    <spell-card v-for="item in items" :spell="item" :cardType="cardType" />
+                    <spell-card v-for="item in items" :spell="item" :cardType="cardType" :key="item.id"/>
                 </div>
             </v-col>
         </v-row>
@@ -16,21 +16,7 @@ import SpellCard  from "./SpellCard.vue"
 export default {
     name: 'Display',
     props: ['items', 'cardType'],
-    components: { SpellCard },
-
-    methods: {
-        customRenderer() {
-            $(".card:nth-child(9n+9)").addClass('page-break');
-        }
-    },
-
-    mounted() {
-        this.customRenderer();
-    },
-
-    updated() {
-        this.customRenderer();
-    }
+    components: { SpellCard }
 }
 </script>
 

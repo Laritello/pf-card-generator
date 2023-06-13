@@ -3,7 +3,7 @@
         <v-row>
             <v-col justify-center>
                 <div id="card-container" class="justify-center align-center collection">
-                    <spell-card v-for="item in items" :spell="item" :cardType="cardType" />
+                    <spell-card v-for="item in items" :spell="item" :cardType="cardType" :key="item.id"/>
                 </div>
             </v-col>
         </v-row>

@@ -43,25 +43,27 @@ export default {
     props: ['spell', 'cardType'],
     data() {
         return {
-            isOverflowed: false,
-            overflowPosition: -1
-
+            isOverflowed: false
         }
     },
     methods: {
-        customRender() {
-            if(this.isOverflowed) return;
-
-            let card = this.$refs.content;
-            if(card.scrollHeight > card.offsetHeight) {
-                let overflowed = getOverflowedElements(card, this.$refs.text);
-
-                this.isOverflowed = overflowed.length > 0;
-                this.overflowPosition = this.description.length - overflowed.length;
-            }
-        }
+        
     },
     computed: {
+        isOverflowed() {
+            let card = this.$refs.content;
+            if (!card) return false;
+            return card.scrollHeight > card.offsetHeight;
+        },
+
+        overflowPosition() {
+            if(!this.isOverflowed) {
+                return Number.MAX_VALUE;
+            }
+            let overflowed = getOverflowedElements(this.$refs.content, this.$refs.text);
+            return this.description.length - overflowed.length;
+        },
+
         description() {
             return [
                 ...this.spell.description, 
@@ -81,12 +83,12 @@ export default {
         }
     },
 
-    mounted() {
-        this.customRender();
-    },
+    // mounted() {
+    //     this.customRender();
+    // },
 
-    updated() {
-        this.customRender();
-    }
+    // updated() {
+    //     this.customRender();
+    // }
 }
 </script>

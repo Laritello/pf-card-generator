@@ -124,7 +124,7 @@ export default {
         },
     },
 
-    mounted() {
+    created() {
         this._keyListener = function(e) {
             if (e.key === "p" && (e.ctrlKey || e.metaKey)) {
                 e.preventDefault();

@@ -1,5 +1,3 @@
-import { getOverflownElements, getCardHeader } from "./utility.js";
-
 class Spell {
     constructor(id, spell) {
         Object.assign(this, spell);
@@ -47,33 +45,6 @@ class Spell {
             this.savingThrowAndDuration = items.join('; ');
         }
         return this.savingThrowAndDuration;
-    }
-
-    splitOverflowed(cardType) {
-        let card = this.getCardElement();
-        let content = $('.text-pf', card);
-        this.overflowedCache = getOverflownElements(content);
-        
-
-        if (this.overflowedCache.length > 0) {
-            this.overflowedCache.parentNode = content;
-            $('.next-page-icon', card).css('visibility', 'visible');
-
-            let rendered = renderCardBackHtml({ 
-                'spell': this, 
-                'content': this.overflowedCache.map((_, item) => item.outerHTML), 
-                'cardType': cardType, 
-                'cardTypeName': getCardHeader(cardType) 
-            });
-            card.after(rendered);
-            this.overflowedCache.remove();
-        }
-    }
-
-    isOverflowed() {
-        let card = this.getCardElement();
-        let content = $('.content', card)[0];
-        return content.scrollHeight > content.offsetHeight;
     }
 
     compare(anotherSpell) {

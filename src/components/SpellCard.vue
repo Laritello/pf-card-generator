@@ -8,7 +8,8 @@
             </div>
             <div style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
             <div>
-                <div class="pf-trait" v-for="trait in spell.traits">{{ trait }}</div>
+                <div class="pf-trait" v-for="trait in spell.traits" :class="{'pf-trait-uncommon': trait == 'необычный',
+                                                                                'pf-trait-rare': trait == 'редкий' }">{{ trait }}</div>
             </div>
             <div ref="text" class="text-pf">
                 <p class="hang" v-html="spell.getTraditions()"></p>

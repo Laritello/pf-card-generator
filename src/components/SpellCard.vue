@@ -3,27 +3,28 @@
         <div class="header">{{ cardType.text }}</div>
         <div ref="content" class="content bg-pf">
             <div class="d-flex">
-                <h1 id="nameField" class="name">{{ spell.name_ru }}</h1>
-                <h1 id="levelField" class="level ms-auto">{{ spell.getLevel() }}</h1>
+                <h1 id="nameField" class="name">{{ rusSpellName }}</h1>
+                <h1 id="levelField" class="level ms-auto">{{ spellLevel }}</h1>
             </div>
             <div style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
             <div>
-                <div class="pf-trait" v-for="trait in spell.traits" :class="{
+                <div class="pf-trait" v-for="trait in spellTraits" :class="{
                     'pf-trait-uncommon': trait == 'необычный',
                     'pf-trait-rare': trait == 'редкий'
                 }">
-                    {{ trait }}</div>
+                    {{ trait }}
+                </div>
             </div>
             <div ref="text" class="text-pf">
-                <p class="hang" v-html="spell.getTraditions()"></p>
-                <p class="hang" v-html="spell.getCast()"></p>
-                <p class="hang" v-html="spell.getDistanceAreaTarget()"></p>
-                <p class="hang" v-html="spell.getSavingThrowAndDuration()"></p>
+                <p class="hang" v-html="spellTraditions"></p>
+                <p class="hang" v-html="spellCast"></p>
+                <p class="hang" v-html="spellDistanceAreaTarget"></p>
+                <p class="hang" v-html="spellSavingThrowAndDuration"></p>
                 <div style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
                 <p v-for="line in frontSideDescription" v-html="line"></p>
             </div>
         </div>
-        <div class="secondary" id="engNameField">{{ spell.name_en }}</div>
+        <div class="secondary">{{ engSpellName }}</div>
         <div style="position:relative;">
             <div v-if="isOverflowed" class="next-page-icon"><img src="images/next_page.png"></div>
         </div>
@@ -35,7 +36,7 @@
                 <p v-for="line in backSideDescription" v-html="line"></p>
             </div>
         </div>
-        <div class="secondary" id="engNameField">{{ spell.name_en }}</div>
+        <div class="secondary" id="engNameField">{{ engSpellName }}</div>
     </div>
 </template>
 
@@ -49,6 +50,16 @@ export default {
         return {
             isOverflowed: false,
             overflowPosition: -1,
+
+            rusSpellName: this.spell.name_ru,
+            engSpellName: this.spell.name_en,
+            spellLevel: this.spell.getLevel(),
+            spellTraits: this.spell.traits,
+            spellTraditions: this.spell.getTraditions(),
+            spellCast: this.spell.getCast(),
+            spellDistanceAreaTarget: this.spell.getDistanceAreaTarget(),
+            spellSavingThrowAndDuration: this.spell.getSavingThrowAndDuration(),
+
             description: [
                 ...this.spell.description,
                 ...this.spell.heightened ? ['<div style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>'] : [],

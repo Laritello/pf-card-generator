@@ -1,5 +1,3 @@
-import { getOverflownElements, getCardHeader } from "./utility.js";
-
 class Spell {
     constructor(id, spell) {
         Object.assign(this, spell);
@@ -7,73 +5,6 @@ class Spell {
         this.cast = spell.cast.replaceActionMacro();
         this.description = spell.description.replaceActionMacro();
         this.heightened = spell.heightened?.replaceActionMacro();
-        this.distanceAreaTarget = null;
-        this.savingThrowAndDuration = null;
-
-        this.overflowedCache = null;
-    }
-
-    getLevel() {
-        let type = this.traits.includes('чары') ? 'Чары ' : 'Закл. ';
-        return type + this.level;
-    }
-
-    getTraditions() {
-        return '<strong>Обычай</strong> ' + this.tradition.join(', ');
-    }
-
-    getCast() {
-        return '<strong>Каст</strong> ' + this.cast;
-    }
-
-    getDistanceAreaTarget() {
-        if (this.distanceAreaTarget === null) {
-            let items = [{ 'name': 'Дистанция', 'value': this.distance },
-            { 'name': 'Область', 'value': this.area },
-            { 'name': 'Цели', 'value': this.target }]
-                .filter(item => item.value != null)
-                .map(item => '<strong>' + item.name + '</strong> ' + item.value);
-            this.distanceAreaTarget = items.join('; ');
-        }
-        return this.distanceAreaTarget;
-    }
-
-    getSavingThrowAndDuration() {
-        if (this.savingThrowAndDuration === null) {
-            let items = [{ 'name': 'Спасбросок', 'value': this.saves },
-            { 'name': 'Продолжительность', 'value': this.duration }]
-                .filter(item => item.value != null)
-                .map(item => '<strong>' + item.name + '</strong> ' + item.value);
-            this.savingThrowAndDuration = items.join('; ');
-        }
-        return this.savingThrowAndDuration;
-    }
-
-    splitOverflowed(cardType) {
-        let card = this.getCardElement();
-        let content = $('.text-pf', card);
-        this.overflowedCache = getOverflownElements(content);
-        
-
-        if (this.overflowedCache.length > 0) {
-            this.overflowedCache.parentNode = content;
-            $('.next-page-icon', card).css('visibility', 'visible');
-
-            let rendered = renderCardBackHtml({ 
-                'spell': this, 
-                'content': this.overflowedCache.map((_, item) => item.outerHTML), 
-                'cardType': cardType, 
-                'cardTypeName': getCardHeader(cardType) 
-            });
-            card.after(rendered);
-            this.overflowedCache.remove();
-        }
-    }
-
-    isOverflowed() {
-        let card = this.getCardElement();
-        let content = $('.content', card)[0];
-        return content.scrollHeight > content.offsetHeight;
     }
 
     compare(anotherSpell) {

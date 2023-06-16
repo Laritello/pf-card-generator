@@ -184,6 +184,7 @@ export default {
 
 .card .secondary {
     z-index: 1;
+    text-transform: uppercase;
 
     position: absolute;
     padding-bottom: 0;
@@ -276,11 +277,6 @@ export default {
     /* padding: 0 0.125rem; */
 }
 
-.pf-trait-size {
-    background: #3a7a58;
-    min-width: auto;
-}
-
 .pf-trait-type {
     background: #004316;
     min-width: auto;
@@ -299,11 +295,6 @@ export default {
 
 .pf-trait-uncommon {
     background: #98503c;
-    min-width: auto;
-}
-
-.pf-trait-unique {
-    background: #54166d;
     min-width: auto;
 }
 

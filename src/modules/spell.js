@@ -5,46 +5,6 @@ class Spell {
         this.cast = spell.cast.replaceActionMacro();
         this.description = spell.description.replaceActionMacro();
         this.heightened = spell.heightened?.replaceActionMacro();
-        this.distanceAreaTarget = null;
-        this.savingThrowAndDuration = null;
-
-        this.overflowedCache = null;
-    }
-
-    getLevel() {
-        let type = this.traits.includes('чары') ? 'Чары ' : 'Закл. ';
-        return type + this.level;
-    }
-
-    getTraditions() {
-        return '<strong>Обычай</strong> ' + this.tradition.join(', ');
-    }
-
-    getCast() {
-        return '<strong>Каст</strong> ' + this.cast;
-    }
-
-    getDistanceAreaTarget() {
-        if (this.distanceAreaTarget === null) {
-            let items = [{ 'name': 'Дистанция', 'value': this.distance },
-            { 'name': 'Область', 'value': this.area },
-            { 'name': 'Цели', 'value': this.target }]
-                .filter(item => item.value != null)
-                .map(item => '<strong>' + item.name + '</strong> ' + item.value);
-            this.distanceAreaTarget = items.join('; ');
-        }
-        return this.distanceAreaTarget;
-    }
-
-    getSavingThrowAndDuration() {
-        if (this.savingThrowAndDuration === null) {
-            let items = [{ 'name': 'Спасбросок', 'value': this.saves },
-            { 'name': 'Продолжительность', 'value': this.duration }]
-                .filter(item => item.value != null)
-                .map(item => '<strong>' + item.name + '</strong> ' + item.value);
-            this.savingThrowAndDuration = items.join('; ');
-        }
-        return this.savingThrowAndDuration;
     }
 
     compare(anotherSpell) {

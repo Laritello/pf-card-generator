@@ -4,7 +4,11 @@
         <div ref="content" class="content bg-pf">
             <div class="d-flex">
                 <h1 id="nameField" class="name">{{ rusSpellName }}</h1>
-                <h1 id="levelField" class="level ms-auto">{{ spellLevel }}</h1>
+                <h1 id="levelField" class="level ms-auto">
+                    <template v-if="spellTraits.includes('чары')">Чары</template>
+                    <template v-else>Закл.</template>
+                    &nbsp;{{ spellLevel }}
+                </h1>
             </div>
             <div style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
             <div>
@@ -16,10 +20,35 @@
                 </div>
             </div>
             <div ref="text" class="text-pf">
-                <p class="hang" v-html="spellTraditions"></p>
-                <p class="hang" v-html="spellCast"></p>
-                <p class="hang" v-html="spellDistanceAreaTarget"></p>
-                <p class="hang" v-html="spellSavingThrowAndDuration"></p>
+                <p class="hang">
+                    <strong>Обычай</strong>&nbsp;
+                    <template v-for="(tradition, index) in spell.tradition">
+                        <template v-if="index > 0">, </template>
+                        {{ tradition }}
+                    </template>
+                </p>
+                <p class="hang">
+                    <strong>Каст</strong> <span v-html="spellCast"></span>
+                </p>
+                <p class="hang">
+                    <template v-if="spellDistance">
+                        <strong>Дистанция</strong> {{ spellDistance }}<template v-if="spellArea || spellTarget">; </template>
+                    </template>
+                    <template v-if="spellArea">
+                        <strong>Область</strong> {{ spellArea }}<template v-if="spellTarget">; </template>
+                    </template>
+                    <template v-if="spellTarget">
+                        <strong>Цели</strong> {{ spellTarget }}
+                    </template>
+                </p>
+                <p class="hang">
+                    <template v-if="spellSavingThrow">
+                        <strong>Спасбросок</strong> {{ spellSavingThrow }}<template v-if="spellDuration">; </template>
+                    </template>
+                    <template v-if="spellDuration">
+                        <strong>Продолжительность</strong> {{ spellDuration }}
+                    </template>
+                </p>
                 <div style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
                 <p v-for="line in frontSideDescription" v-html="line"></p>
             </div>
@@ -53,14 +82,16 @@ export default {
 
             rusSpellName: this.spell.name_ru,
             engSpellName: this.spell.name_en,
-            spellLevel: this.spell.getLevel(),
+            spellLevel: this.spell.level,
             spellTraits: this.spell.traits,
-            spellTraditions: this.spell.getTraditions(),
-            spellCast: this.spell.getCast(),
-            spellDistanceAreaTarget: this.spell.getDistanceAreaTarget(),
-            spellSavingThrowAndDuration: this.spell.getSavingThrowAndDuration(),
-
-            description: [
+            spellTraditions: this.spell.tradition,
+            spellCast: this.spell.cast,
+            spellDistance: this.spell.distance,
+            spellArea: this.spell.area,
+            spellTarget: this.spell.target,
+            spellSavingThrow: this.spell.saves,
+            spellDuration: this.spell.duration,
+            spellEntries: [
                 ...this.spell.description,
                 ...this.spell.heightened ? ['<div style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>'] : [],
                 ...this.spell.heightened ?? []
@@ -71,32 +102,29 @@ export default {
     methods: {
         customRender() {
             if (this.isOverflowed) return;
+            console.log('update')
             let card = this.$refs.content;
             if (card.scrollHeight > card.offsetHeight) {
                 let overflowed = getOverflowedElements(card, this.$refs.text);
                 this.isOverflowed = overflowed.length > 0;
-                this.overflowPosition = this.description.length - overflowed.length;
+                this.overflowPosition = this.spellEntries.length - overflowed.length;
             }
         }
     },
 
     computed: {
         frontSideDescription() {
-            if (!this.isOverflowed) return this.description;
-            return this.description.slice(0, this.overflowPosition);
+            if (!this.isOverflowed) return this.spellEntries;
+            return this.spellEntries.slice(0, this.overflowPosition);
         },
 
         backSideDescription() {
             if (!this.isOverflowed) return [];
-            return this.description.slice(this.overflowPosition);
+            return this.spellEntries.slice(this.overflowPosition);
         }
     },
 
     mounted() {
-        this.customRender();
-    },
-
-    updated() {
         this.customRender();
     }
 }

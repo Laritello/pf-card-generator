@@ -13,7 +13,7 @@
 
         <v-navigation-drawer v-model="drawer" location="right" temporary>
             <div style="padding: 10px 20px 0 20px">
-                 <v-btn size="small" variant="plain" @click="showCustomDeckDialog()">
+                 <v-btn size="small" variant="plain" @click="dialog = true">
                     Пользовательский набор
                 </v-btn>
             </div>
@@ -59,7 +59,6 @@
                 </v-expansion-panels>
             </v-card>
         </v-navigation-drawer>
-        <!--Сменить item-value="name_ru" на item-value="id", когда мы их добавим в json-->
         <v-main style="min-height: 300px">
             <v-dialog v-model="dialog" width="auto">
                 <v-card>
@@ -68,13 +67,13 @@
                         v-model="customDeck"
                         :headers="headers"
                         :items="currentTypeSpells"
-                        item-value="name_ru" 
+                        item-value="id" 
                         show-select
                     ></v-data-table>
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn @click="displayCustomDeck()">Показать</v-btn>
-                        <v-btn @click="dialog = false">Отмена</v-btn>
+                        <v-btn @click="dialog = false">Закрыть</v-btn>
+                        <v-btn @click="customDeck = []">Сбросить</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -103,7 +102,7 @@ export default {
 
             customDeck: [],
             headers: [
-            { title: 'Название', align: 'start', sortable: false, key: 'name_ru', },
+            { title: 'Название', align: 'start', key: 'name_ru', },
             { title: 'Уровень', key: 'level' },
             ],
 
@@ -116,18 +115,9 @@ export default {
             ],
 
             components: [
-                {
-                    text: "Жестовый",
-                    value: "жестовый",
-                },
-                {
-                    text: "Словесный",
-                    value: "словесный",
-                },
-                {
-                    text: "Материальный",
-                    value: "материальный",
-                },
+                { text: "Жестовый", value: "жестовый", },
+                { text: "Словесный", value: "словесный", },
+                { text: "Материальный", value: "материальный", },
             ],
 
             spellLevels: [
@@ -151,13 +141,6 @@ export default {
         print() {
             $(".card:nth-child(9n+9)").addClass('page-break');
             window.print();
-        },
-        showCustomDeckDialog() {
-            this.dialog = true;
-        },
-        displayCustomDeck() {
-            this.dialog = false;
-            console.log(this.customDeck);
         }
     },
 
@@ -178,6 +161,9 @@ export default {
 
     computed: {
         filteredSpells() {
+            if (this.customDeck != null && this.customDeck.length > 0)
+                return this.allSpells.filter((spell) => this.customDeck.includes(spell.id));
+
             let name = this.spellName;
             let cardType = this.activeCardType.value;
             let components = this.activeComponents;

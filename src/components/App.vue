@@ -12,6 +12,11 @@
         </v-app-bar>
 
         <v-navigation-drawer v-model="drawer" location="right" temporary>
+            <div style="padding: 10px 20px 0 20px">
+                 <v-btn size="small" variant="plain" @click="dialog = true">
+                    Пользовательский набор
+                </v-btn>
+            </div>
             <div style="padding: 20px 20px 0 20px">
                 <v-combobox v-model="activeCardType" :items="cardTypes" item-title="text" item-value="value"
                     variant="outlined" label="Тип"></v-combobox>
@@ -54,8 +59,25 @@
                 </v-expansion-panels>
             </v-card>
         </v-navigation-drawer>
-
         <v-main style="min-height: 300px">
+            <v-dialog v-model="dialog" width="auto">
+                <v-card>
+                    <v-card-text>
+                    <v-data-table
+                        v-model="customDeck"
+                        :headers="headers"
+                        :items="currentTypeSpells"
+                        item-value="id" 
+                        show-select
+                    ></v-data-table>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn @click="dialog = false">Закрыть</v-btn>
+                        <v-btn @click="customDeck = []">Сбросить</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+
             <Display class="d-flex justify-center align-center h-100" 
             :items="filteredSpells" 
             :cardType="activeCardType"/>
@@ -70,12 +92,19 @@ import Display from "./Display.vue";
 export default {
     data() {
         return {
+            dialog: false,
             loading: false,
             allSpells: getSpells(),
             spellName: "",
             activeCardType: { text: "Арканное", value: "arcane" },
             activeComponents: [],
             activeSpellLevels: [],
+
+            customDeck: [],
+            headers: [
+            { title: 'Название', align: 'start', key: 'name_ru', },
+            { title: 'Уровень', key: 'level' },
+            ],
 
             cardTypes: [
                 { text: "Арканное", value: "arcane" },
@@ -86,18 +115,9 @@ export default {
             ],
 
             components: [
-                {
-                    text: "Жестовый",
-                    value: "жестовый",
-                },
-                {
-                    text: "Словесный",
-                    value: "словесный",
-                },
-                {
-                    text: "Материальный",
-                    value: "материальный",
-                },
+                { text: "Жестовый", value: "жестовый", },
+                { text: "Словесный", value: "словесный", },
+                { text: "Материальный", value: "материальный", },
             ],
 
             spellLevels: [
@@ -121,7 +141,7 @@ export default {
         print() {
             $(".card:nth-child(9n+9)").addClass('page-break');
             window.print();
-        },
+        }
     },
 
     created() {
@@ -141,6 +161,9 @@ export default {
 
     computed: {
         filteredSpells() {
+            if (this.customDeck != null && this.customDeck.length > 0)
+                return this.allSpells.filter((spell) => this.customDeck.includes(spell.id));
+
             let name = this.spellName;
             let cardType = this.activeCardType.value;
             let components = this.activeComponents;
@@ -149,6 +172,12 @@ export default {
                 filterSpells(spell, name, cardType, components, levels)
             );
         },
+        currentTypeSpells() {
+            let cardType = this.activeCardType.value;
+            return this.allSpells.filter((spell) =>
+                filterSpells(spell, null, cardType, null, null)
+            );
+        }
     },
 
     components: { Display },

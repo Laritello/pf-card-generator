@@ -19,10 +19,10 @@
             </div>
             <div style="padding: 20px 20px 0 20px">
                 <v-combobox v-model="activeCardType" :items="cardTypes" item-title="text" item-value="value"
-                    variant="outlined" label="Тип"></v-combobox>
+                    variant="outlined" label="Тип" class="no-print"></v-combobox>
             </div>
             <div style="padding: 0 20px 0 20px">
-                <v-text-field clearable label="Название" variant="outlined" v-model="spellName"></v-text-field>
+                <v-text-field clearable label="Название" variant="outlined" v-model="spellName" class="no-print"></v-text-field>
             </div>
             <v-card outlined elevation="0">
                 <v-expansion-panels variant="accordion" class="elevation-0" multiple>

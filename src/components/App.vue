@@ -86,7 +86,7 @@
                                 <v-icon
                                     size="small"
                                     class="me-2"
-                                    @click="editItem(item.raw)">
+                                    @click="showItem(item.raw)">
                                     mdi-information
                                 </v-icon>
                             </template>
@@ -164,6 +164,9 @@ export default {
         print() {
             $(".card:nth-child(9n+9)").addClass('page-break');
             window.print();
+        },
+        showItem(item) {
+            
         }
     },
 

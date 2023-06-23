@@ -62,14 +62,35 @@
         <v-main style="min-height: 300px">
             <v-dialog v-model="dialog" width="auto">
                 <v-card>
+                    <v-card-title>
+                        Пользовательский набор
+                        <v-spacer></v-spacer>
+                        <div style="padding: 20px 0 0 0">
+                            <v-text-field 
+                                clearable 
+                                label="Поиск" 
+                                variant="outlined"
+                                v-model="search">
+                            </v-text-field>
+                        </div>
+                    </v-card-title>
                     <v-card-text>
-                    <v-data-table
-                        v-model="customDeck"
-                        :headers="headers"
-                        :items="currentTypeSpells"
-                        item-value="id" 
-                        show-select
-                    ></v-data-table>
+                        <v-data-table
+                                v-model="customDeck"
+                                :headers="headers"
+                                :items="currentTypeSpells"
+                                :search="search"
+                                item-value="id" 
+                                show-select>
+                            <template v-slot:item.actions="{ item }">
+                                <v-icon
+                                    size="small"
+                                    class="me-2"
+                                    @click="editItem(item.raw)">
+                                    mdi-information
+                                </v-icon>
+                            </template>
+                        </v-data-table>
                     </v-card-text>
                     <v-card-actions>
                         <v-btn @click="dialog = false">Закрыть</v-btn>
@@ -92,6 +113,7 @@ import Display from "./Display.vue";
 export default {
     data() {
         return {
+            search: '',
             dialog: false,
             loading: false,
             allSpells: getSpells(),
@@ -103,7 +125,8 @@ export default {
             customDeck: [],
             headers: [
             { title: 'Название', align: 'start', key: 'name_ru', },
-            { title: 'Уровень', key: 'level' },
+            { title: 'Оригинальное название', key: 'name_en',},
+            { title: 'Actions', key: 'actions', align: 'center', sortable: false },
             ],
 
             cardTypes: [

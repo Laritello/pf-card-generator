@@ -126,7 +126,7 @@ export default {
             headers: [
             { title: 'Название', align: 'start', key: 'name_ru', },
             { title: 'Оригинальное название', key: 'name_en',},
-            { title: 'Actions', key: 'actions', align: 'center', sortable: false },
+            { title: 'Действия', key: 'actions', align: 'center', sortable: false },
             ],
 
             cardTypes: [
@@ -166,7 +166,7 @@ export default {
             window.print();
         },
         showItem(item) {
-            
+
         }
     },
 

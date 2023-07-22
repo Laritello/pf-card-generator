@@ -316,8 +316,9 @@ export default {
 }
 
 .text-pf ul {
-    list-style-type: disc;
-    padding-left: 5mm;
+    list-style-type: "\2022  ";
+    list-style-position: outside;
+    padding-left: 2mm;
     margin: 0;
     /* Убирает нижний отступ */
 }
@@ -325,11 +326,12 @@ export default {
 .text-pf ul li {
     padding: 0;
     margin: 0;
+    margin-bottom: 0.3mm;
 }
 
 .text-pf ol {
     list-style-type: none;
-    padding-left: 5mm;
+    padding-left: 2mm;
     margin: 0;
     /* Убирает нижний отступ */
 }

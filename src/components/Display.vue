@@ -316,7 +316,7 @@ export default {
 }
 
 .text-pf ul {
-    list-style-type: "\2022  ";
+    list-style-type: "\2022\00A0\00A0";
     list-style-position: outside;
     padding-left: 2mm;
     margin: 0;

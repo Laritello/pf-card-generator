@@ -49,19 +49,19 @@ const free_link = '<img src="images/F.png" class="text-img">';
 
 String.prototype.replaceActionMacro = function () {
     return this
-        .replace('(a)', one_action_link)
-        .replace('(aa)', two_action_link)
-        .replace('(aaa)', three_action_link)
-        .replace('(r)', reaction_link)
-        .replace('(f)', free_link);
+        .replaceAll('(a)', one_action_link)
+        .replaceAll('(aa)', two_action_link)
+        .replaceAll('(aaa)', three_action_link)
+        .replaceAll('(r)', reaction_link)
+        .replaceAll('(f)', free_link);
 }
 
 Array.prototype.replaceActionMacro = function () {
-    return this.map(item => item.replace('(a)', one_action_link)
-        .replace('(aa)', two_action_link)
-        .replace('(aaa)', three_action_link)
-        .replace('(r)', reaction_link)
-        .replace('(f)', free_link));
+    return this.map(item => item.replaceAll('(a)', one_action_link)
+        .replaceAll('(aa)', two_action_link)
+        .replaceAll('(aaa)', three_action_link)
+        .replaceAll('(r)', reaction_link)
+        .replaceAll('(f)', free_link));
 }
 
 Array.prototype.replaceEach = function (what, to) {

@@ -50,7 +50,10 @@
                     </template>
                 </p>
                 <div style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
-                <p v-for="line in frontSideDescription" v-html="line"></p>
+                <template v-for="line in frontSideDescription">
+                    <div v-if="line === 'line'" class="space-line"></div>
+                    <span v-else v-html="line"></span>
+                </template>
             </div>
         </div>
         <div class="secondary">{{ engSpellName }}</div>
@@ -62,7 +65,10 @@
         <div class="header">{{ cardType.text }}</div>
         <div class="content bg-pf">
             <div class="text-pf">
-                <p v-for="line in backSideDescription" v-html="line"></p>
+                <template v-for="line in backSideDescription">
+                    <div v-if="line === 'line'" class="space-line"></div>
+                    <span v-else v-html="line"></span>
+                </template>
             </div>
         </div>
         <div class="secondary" id="engNameField">{{ engSpellName }}</div>
@@ -93,7 +99,7 @@ export default {
             spellDuration: this.spell.duration,
             spellEntries: [
                 ...this.spell.description,
-                ...this.spell.heightened ? ['<div style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>'] : [],
+                ...this.spell.heightened ? ['line'] : [],
                 ...this.spell.heightened ?? []
             ]
         }

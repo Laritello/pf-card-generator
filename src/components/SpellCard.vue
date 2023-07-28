@@ -52,6 +52,7 @@
                 <div style="background: #030200; height: 0.2mm; margin: 0 0 0.5mm 0;"></div>
                 <template v-for="line in frontSideDescription">
                     <div v-if="line === 'line'" class="space-line"></div>
+                    <br v-else-if="line === '<br>'">
                     <span v-else v-html="line"></span>
                 </template>
             </div>

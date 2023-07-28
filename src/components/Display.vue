@@ -311,6 +311,20 @@ export default {
     font-family: 'ff-good-web-pro', sans-serif;
 }
 
+.text-pf .space-line {
+    background: #030200; 
+    height: 0.2mm; 
+    margin: 0 0 0.5mm 0;
+}
+
+.text-pf > .space-line:first-child {
+    visibility:hidden;
+}
+
+.text-pf > .space-line:last-child {
+    visibility:hidden;
+}
+
 .text-pf p {
     margin: 0;
 }

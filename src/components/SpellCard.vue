@@ -4,7 +4,12 @@
         <div ref="content" class="content bg-pf">
             <div class="d-flex">
                 <h1 id="nameField" class="name">{{ rusSpellName }}</h1>
-                <h1 id="levelField" class="level ms-auto">
+                <h1 v-if="cardType.value === 'focus'" id="levelField" class="level ms-auto">
+                    <template v-if="spellTraits.includes('чары')">Ф. Чары</template>
+                    <template v-else>Фокус</template>
+                    &nbsp;{{ spellLevel }}
+                </h1>
+                <h1 v-else id="levelField" class="level ms-auto">
                     <template v-if="spellTraits.includes('чары')">Чары</template>
                     <template v-else>Закл.</template>
                     &nbsp;{{ spellLevel }}
@@ -20,7 +25,10 @@
                 </div>
             </div>
             <div ref="text" class="text-pf">
-                <p class="hang">
+                <p v-if="cardType.value === 'focus' && focusSpellDomain !== null" class="hang">
+                    <strong>{{ focusSpellDomain.caption }}</strong> <span v-html="focusSpellDomain.description"></span>
+                </p>
+                <p v-if="cardType.value !== 'focus'" class="hang">
                     <strong>Обычай</strong>&nbsp;
                     <template v-for="(tradition, index) in spell.tradition">
                         <template v-if="index > 0">, </template>
@@ -102,6 +110,7 @@ export default {
             spellTarget: this.spell.target,
             spellSavingThrow: this.spell.saves,
             spellDuration: this.spell.duration,
+            focusSpellDomain: this.spell.special,
             spellEntries: [
                 ...this.spell.description,
                 ...this.spell.heightened ? ['line'] : [],

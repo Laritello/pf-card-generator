@@ -30,6 +30,9 @@
                 <p class="hang">
                     <strong>Каст</strong> <span v-html="spellCast"></span>
                 </p>
+                <p v-if="trigger" class="hang">
+                    <strong>Триггер</strong> <span v-html="trigger"></span>
+                </p>
                 <p class="hang">
                     <template v-if="spellDistance">
                         <strong>Дистанция</strong> {{ spellDistance }}<template v-if="spellArea || spellTarget">; </template>
@@ -89,6 +92,7 @@ export default {
 
             rusSpellName: this.spell.name_ru,
             engSpellName: this.spell.name_en,
+            trigger: this.spell.trigger,
             spellLevel: this.spell.level,
             spellTraits: this.spell.traits,
             spellTraditions: this.spell.tradition,

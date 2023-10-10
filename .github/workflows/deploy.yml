@@ -39,6 +39,8 @@ jobs:
       # Получает продакшн билд
       - name: Build dist
         run: npm run build
+        env:
+          UV_USE_IO_URING: 0
         
       - name: Deploy
         uses: s0/git-publish-subdir-action@develop

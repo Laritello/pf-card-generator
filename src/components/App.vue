@@ -1,9 +1,24 @@
 <template>
     <v-app>
         <v-app-bar>
-            <v-app-bar-title>
-                <v-img src="../assets/logo.png" height="50" width="50"></v-img>
-            </v-app-bar-title>
+            <div style="display: flex; align-items: center; justify-content: start; margin-left: 16px;">
+                <v-img src="../assets/logo.png" height="50" width="50" style="margin-right: 16px;"></v-img>
+                
+                <!--Перейти на итератор, а не ручное добавление кнопок-->
+                <div class="d-none d-sm-flex">
+                    <v-btn text="Заклинания" :class="[this.selectedTab.value == 'spells' ? 'tab-active' : '']"
+                        @click="selectTab(tabs[0])"></v-btn>
+                    <v-btn text="Фокусы" :class="[this.selectedTab.value == 'focuses' ? 'tab-active' : '']"
+                        @click="selectTab(tabs[1])"></v-btn>
+                </div>
+
+                <div class="d-flex d-sm-none" style="align-items: center; vertical-align: center;">
+                    <v-combobox v-model="selectedTab" :items="tabs" item-title="text" variant="underlined" class="no-print"></v-combobox>
+                </div>
+            </div>
+
+            <v-spacer />
+
             <v-btn icon="mdi-github" href="https://github.com/Laritello/pf-card-generator"></v-btn>
             <v-btn icon="mdi-printer" @click="print()"></v-btn>
             <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer">
@@ -12,23 +27,42 @@
         </v-app-bar>
 
         <v-navigation-drawer v-model="drawer" location="right" temporary>
-            <div style="padding: 10px 20px 0 20px">
-                 <v-btn size="small" variant="plain" @click="dialog = true">
+            <div v-if="this.selectedTab.value == 'spells'" style="padding: 10px 20px 0 20px">
+                <v-btn size="small" variant="plain" @click="dialog = true">
                     Пользовательский набор
                 </v-btn>
             </div>
             <div style="padding: 20px 20px 0 20px">
-                <v-combobox v-model="activeCardType" :items="cardTypes" item-title="text" item-value="value"
-                    variant="outlined" label="Тип" class="no-print"></v-combobox>
+                <v-combobox v-if="this.selectedTab.value == 'spells'" v-model="activeSpellCardType" :items="cardTypes"
+                    item-title="text" item-value="value" variant="outlined" label="Тип" class="no-print"></v-combobox>
+
+                <v-combobox clearable v-if="this.selectedTab.value == 'focuses'" v-model="activeFocusClass" :items="focusClasses"
+                    item-title="text" item-value="value" variant="outlined" label="Класс" class="no-print"></v-combobox>
             </div>
             <div style="padding: 0 20px 0 20px">
-                <v-text-field clearable label="Название" variant="outlined" v-model="spellName" class="no-print"></v-text-field>
+                <v-text-field clearable label="Название" variant="outlined" v-model="spellName"
+                    class="no-print"></v-text-field>
             </div>
             <v-card outlined elevation="0">
                 <v-expansion-panels variant="accordion" class="elevation-0" multiple>
-                    <v-expansion-panel title="Уровни заклинаний">
+                    <v-expansion-panel v-if="this.selectedTab.value == 'spells'" title="Уровни заклинаний">
                         <v-expansion-panel-text>
                             <v-list select-strategy="classic" v-model:selected="activeSpellLevels">
+                                <v-list-item v-for="(item, idx) in spellLevels" :key="idx" :value="item.value">
+                                    <template v-slot:prepend="{ isActive }">
+                                        <v-list-item-action start>
+                                            <v-checkbox-btn :model-value="isActive"></v-checkbox-btn>
+                                        </v-list-item-action>
+                                    </template>
+                                    <v-list-item-title v-text="item.text"></v-list-item-title>
+                                </v-list-item>
+                            </v-list>
+                        </v-expansion-panel-text>
+                    </v-expansion-panel>
+
+                    <v-expansion-panel v-if="this.selectedTab.value == 'focuses'" title="Уровни фокусов">
+                        <v-expansion-panel-text>
+                            <v-list select-strategy="classic" v-model:selected="activeFocusLevels">
                                 <v-list-item v-for="(item, idx) in spellLevels" :key="idx" :value="item.value">
                                     <template v-slot:prepend="{ isActive }">
                                         <v-list-item-action start>
@@ -66,27 +100,15 @@
                         Пользовательский набор
                         <v-spacer></v-spacer>
                         <div style="padding: 20px 0 0 0">
-                            <v-text-field 
-                                clearable 
-                                label="Поиск" 
-                                variant="outlined"
-                                v-model="search">
+                            <v-text-field clearable label="Поиск" variant="outlined" v-model="search">
                             </v-text-field>
                         </div>
                     </v-card-title>
                     <v-card-text>
-                        <v-data-table
-                                v-model="customDeck"
-                                :headers="headers"
-                                :items="currentTypeSpells"
-                                :search="search"
-                                item-value="id" 
-                                show-select>
+                        <v-data-table v-model="spellsCustomDeck" :headers="headers" :items="currentTypeSpells"
+                            :search="search" item-value="id" show-select>
                             <template v-slot:item.actions="{ item }">
-                                <v-icon
-                                    size="small"
-                                    class="me-2"
-                                    @click="showItem(item.raw)">
+                                <v-icon size="small" class="me-2" @click="showItem(item.raw)">
                                     mdi-information
                                 </v-icon>
                             </template>
@@ -94,39 +116,53 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-btn @click="dialog = false">Закрыть</v-btn>
-                        <v-btn @click="customDeck = []">Сбросить</v-btn>
+                        <v-btn @click="spellsCustomDeck = []">Сбросить</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
 
-            <Display class="d-flex justify-center align-center h-100" 
-            :items="filteredSpells" 
-            :cardType="activeCardType"/>
+            <Display class="d-flex justify-center align-center h-100" :items="filteredSpells" :cardType="activeCardType" />
         </v-main>
     </v-app>
 </template>
 
+<!--Необходимо для работы сайзинга панели табов-->
+<script setup>
+import { useDisplay } from 'vuetify'
+useDisplay()
+</script>
+
 <script>
-import { getSpells, filterSpells } from "../modules/provider.js";
+import { getSpells, filterSpells, filterFocuses } from "../modules/provider.js";
 import Display from "./Display.vue";
 
 export default {
     data() {
         return {
             search: '',
+            selectedTab: { text: "Заклинания", value: "spells" },
             dialog: false,
             loading: false,
             allSpells: getSpells(),
             spellName: "",
-            activeCardType: { text: "Арканное", value: "arcane" },
+            activeSpellCardType: { text: "Арканное", value: "arcane" },
             activeComponents: [],
             activeSpellLevels: [],
+            activeFocusLevels: [],
+            activeFocusClass: [],
 
-            customDeck: [],
+            spellsCustomDeck: [],
+            focusesCustomDeck: [],
+
+            tabs: [
+                { text: "Заклинания", value: "spells" },
+                { text: "Фокусы", value: "focuses" },
+            ],
+
             headers: [
-            { title: 'Название', align: 'start', key: 'name_ru', },
-            { title: 'Оригинальное название', key: 'name_en',},
-            { title: 'Действия', key: 'actions', align: 'center', sortable: false },
+                { title: 'Название', align: 'start', key: 'name_ru', },
+                { title: 'Оригинальное название', key: 'name_en', },
+                { title: 'Действия', key: 'actions', align: 'center', sortable: false },
             ],
 
             cardTypes: [
@@ -134,7 +170,38 @@ export default {
                 { text: "Сакральное", value: "divine" },
                 { text: "Природное", value: "primal" },
                 { text: "Оккультное", value: "occult" },
-                { text: "Фокус", value: "focus" },
+            ],
+
+            focusClasses: [
+                { text: "Ассасин Красного Богомола", value: "red-mantis-assassin" },
+                { text: "Бард", value: "bard" },
+                { text: "Ведьма", value: "witch" },
+                { text: "Волшебник", value: "wizard" },
+                { text: "Джалмерэйский Искатель Небес", value: "jalmeri-heavenseeker" },
+                { text: "Друид", value: "druid" },
+                { text: "Жрец", value: "cleric" },
+                { text: "Маг времени", value: "time-mage" },
+                { text: "Магический воин", value: "magic-warrior" },
+                { text: "Магус", value: "magus" },
+                { text: "Мастер заклинаний", value: "spellmaster" },
+                { text: "Мастер свитков", value: "scrollmaster" },
+                { text: "Монах", value: "monk" },
+                { text: "Оракул", value: "oracle" },
+                { text: "Повелитель зверей", value: "beastmaster" },
+                { text: "Призыватель", value: "summoner" },
+                { text: "Реаниматор", value: "reanimator" },
+                { text: "Рейнджер", value: "ranger" },
+                { text: "Рунные заклинания", value: "runelord-rune-spell" },
+                { text: "Рыцари Ластволла", value: "knights-of-lastwall" },
+                { text: "Святой некромант", value: "hallowed-necromancer" },
+                { text: "Сновидец", value: "sleepwalker" },
+                { text: "Танцор теней", value: "shadowdancer" },
+                { text: "Теневой заклинатель", value: "shadowcaster" },
+                { text: "Ученик Совершенства", value: "student-of-perfection" },
+                { text: "Чародей", value: "sorcerer" },
+                { text: "Чемпион", value: "champion" },
+                { text: "Экстрасенс", value: "psychic" },
+                { text: "Элементализм", value: "elementalism" },
             ],
 
             components: [
@@ -165,13 +232,39 @@ export default {
             $(".card:nth-child(9n+9)").addClass('page-break');
             window.print();
         },
-        showItem(item) {
+        selectTab(tab) {
+            this.selectedTab = tab;
+        },
+        getFilteredSpells() {
+            if (this.spellsCustomDeck != null && this.spellsCustomDeck.length > 0)
+                return this.allSpells.filter((spell) => this.spellsCustomDeck.includes(spell.id));
 
+            let name = this.spellName;
+            let cardType = this.activeSpellCardType.value;
+            let components = this.activeComponents;
+            let levels = this.activeSpellLevels;
+            return this.allSpells.filter((spell) =>
+                filterSpells(spell, name, cardType, components, levels)
+            );
+        },
+        getFilteredFocuses() {
+            if (this.focusesCustomDeck != null && this.focusesCustomDeck.length > 0)
+                return this.allSpells.filter((spell) => this.focusesCustomDeck.includes(spell.id));
+
+            let name = this.spellName;
+            let cardType = 'focus';
+            let components = this.activeComponents;
+            let levels = this.activeFocusLevels;
+            let classes = this.activeFocusClass?.value;
+
+            return this.allSpells.filter((spell) =>
+                filterFocuses(spell, name, cardType, components, levels, classes)
+            );
         }
     },
 
     created() {
-        this._keyListener = function(e) {
+        this._keyListener = function (e) {
             if (e.key === "p" && (e.ctrlKey || e.metaKey)) {
                 e.preventDefault();
                 this.print();
@@ -187,22 +280,26 @@ export default {
 
     computed: {
         filteredSpells() {
-            if (this.customDeck != null && this.customDeck.length > 0)
-                return this.allSpells.filter((spell) => this.customDeck.includes(spell.id));
-
-            let name = this.spellName;
-            let cardType = this.activeCardType.value;
-            let components = this.activeComponents;
-            let levels = this.activeSpellLevels;
-            return this.allSpells.filter((spell) =>
-                filterSpells(spell, name, cardType, components, levels)
-            );
+            switch (this.selectedTab.value) {
+                case 'spells':
+                    return this.getFilteredSpells();
+                case 'focuses':
+                    return this.getFilteredFocuses();
+            }
         },
         currentTypeSpells() {
-            let cardType = this.activeCardType.value;
+            let cardType = this.activeSpellCardType.value;
             return this.allSpells.filter((spell) =>
                 filterSpells(spell, null, cardType, null, null)
             );
+        },
+        activeCardType() {
+            switch (this.selectedTab.value) {
+                case 'spells':
+                    return this.activeSpellCardType;
+                case 'focuses':
+                    return { text: "Фокус", value: "focus" };
+            }
         }
     },
 
@@ -213,6 +310,12 @@ export default {
 <style>
 @import "../styles/main.css";
 @import "../styles/font.css";
+
+.tab-active {
+    color: black;
+    font-weight: 700;
+    background-color: #00000033;
+}
 
 #collection {
     display: flex;

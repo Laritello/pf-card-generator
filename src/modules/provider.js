@@ -24,6 +24,16 @@ function filterSpells(spell, name, cardType, components, levels) {
     return nameChecked && typeChecked && componentsChecked && levelChecked;
 }
 
+function filterFocuses(spell, name, cardType, components, levels, focusClass) {
+    let nameChecked = nameCheck(spell, name);
+    let typeChecked = typeCheck(spell, cardType);
+    let componentsChecked = componentsCheck(spell, components);
+    let levelChecked = levelsCheck(spell, levels);
+    let classChecked = classCheck(spell, focusClass);
+
+    return nameChecked && typeChecked && componentsChecked && levelChecked && classChecked;
+}
+
 function nameCheck(spell, name) {
     if (name == null) return true;
 
@@ -76,4 +86,10 @@ function levelsCheck(spell, levels) {
     return false;
 }
 
-export { getSpells, filterSpells };
+function classCheck(spell, focusClass) {
+    if (focusClass == null) return true;
+
+    return spell.class_id != null && spell.class_id.toLowerCase().includes(focusClass.toLowerCase());
+}
+
+export { getSpells, filterSpells, filterFocuses };

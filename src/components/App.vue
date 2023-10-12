@@ -6,9 +6,9 @@
                 
                 <!--Перейти на итератор, а не ручное добавление кнопок-->
                 <div class="d-none d-sm-flex">
-                    <v-btn text="Заклинания" :class="[this.selectedTab.value == 'spells' ? 'tab-active' : '']"
+                    <v-btn text="Заклинания" :class="[selectedTab.value == 'spells' ? 'tab-active' : '']"
                         @click="selectTab(tabs[0])"></v-btn>
-                    <v-btn text="Фокусы" :class="[this.selectedTab.value == 'focuses' ? 'tab-active' : '']"
+                    <v-btn text="Фокусы" :class="[selectedTab.value == 'focuses' ? 'tab-active' : '']"
                         @click="selectTab(tabs[1])"></v-btn>
                 </div>
 
@@ -27,16 +27,16 @@
         </v-app-bar>
 
         <v-navigation-drawer v-model="drawer" location="right" temporary>
-            <div v-if="this.selectedTab.value == 'spells'" style="padding: 10px 20px 0 20px">
+            <div v-if="selectedTab.value == 'spells'" style="padding: 10px 20px 0 20px">
                 <v-btn size="small" variant="plain" @click="dialog = true">
                     Пользовательский набор
                 </v-btn>
             </div>
             <div style="padding: 20px 20px 0 20px">
-                <v-combobox v-if="this.selectedTab.value == 'spells'" v-model="activeSpellCardType" :items="cardTypes"
+                <v-combobox v-if="selectedTab.value == 'spells'" v-model="activeSpellCardType" :items="cardTypes"
                     item-title="text" item-value="value" variant="outlined" label="Тип" class="no-print"></v-combobox>
 
-                <v-combobox clearable v-if="this.selectedTab.value == 'focuses'" v-model="activeFocusClass" :items="focusClasses"
+                <v-combobox clearable v-if="selectedTab.value == 'focuses'" v-model="activeFocusClass" :items="focusClasses"
                     item-title="text" item-value="value" variant="outlined" label="Класс" class="no-print"></v-combobox>
             </div>
             <div style="padding: 0 20px 0 20px">
@@ -45,7 +45,7 @@
             </div>
             <v-card outlined elevation="0">
                 <v-expansion-panels variant="accordion" class="elevation-0" multiple>
-                    <v-expansion-panel v-if="this.selectedTab.value == 'spells'" title="Уровни заклинаний">
+                    <v-expansion-panel v-if="selectedTab.value == 'spells'" title="Уровни заклинаний">
                         <v-expansion-panel-text>
                             <v-list select-strategy="classic" v-model:selected="activeSpellLevels">
                                 <v-list-item v-for="(item, idx) in spellLevels" :key="idx" :value="item.value">
@@ -60,7 +60,7 @@
                         </v-expansion-panel-text>
                     </v-expansion-panel>
 
-                    <v-expansion-panel v-if="this.selectedTab.value == 'focuses'" title="Уровни фокусов">
+                    <v-expansion-panel v-if="selectedTab.value == 'focuses'" title="Уровни фокусов">
                         <v-expansion-panel-text>
                             <v-list select-strategy="classic" v-model:selected="activeFocusLevels">
                                 <v-list-item v-for="(item, idx) in spellLevels" :key="idx" :value="item.value">
